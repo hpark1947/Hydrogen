@@ -393,7 +393,7 @@ def slide_05_value_chain(prs):
         # 메인 박스
         box = slide.shapes.add_shape(
             MSO_SHAPE.ROUNDED_RECTANGLE,
-            left, Inches(1.6), Inches(3.0), Inches(4.9)
+            left, Inches(1.6), Inches(3.0), Inches(4.14)
         )
         box.fill.solid()
         box.fill.fore_color.rgb = colors[i]
@@ -432,7 +432,7 @@ def slide_05_value_chain(prs):
             set_font(arun, size=28, bold=True, color=NAVY)
 
     # 하단 설명
-    tf = add_body_textbox(slide, top=Inches(6.7), height=Inches(0.6))
+    tf = add_body_textbox(slide, top=Inches(6.22), height=Inches(0.6))
     add_bullet_point(tf, "2050 글로벌 수소 운송: 파이프라인 55% + 암모니아 해상운송 40%", first=True, size=15, color=MEDIUM_GRAY)
     add_bullet_point(tf, "수소 저장·운송 시장: $21.7B (2030) → $566B (2050)", size=15, color=MEDIUM_GRAY)
 
