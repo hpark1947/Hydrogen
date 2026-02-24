@@ -389,18 +389,18 @@ def slide_05_value_chain(prs):
     colors = [NAVY, LIGHT_NAVY, RGBColor(0x22, 0x8B, 0x5B), GREEN]
 
     for i, (title, content) in enumerate(stages):
-        left = Inches(0.5) + Inches(i * 3.15)
+        left = Inches(0.3) + Inches(i * 3.2)
         # 메인 박스
         box = slide.shapes.add_shape(
             MSO_SHAPE.ROUNDED_RECTANGLE,
-            left, Inches(1.8), Inches(2.8), Inches(4.0)
+            left, Inches(1.6), Inches(3.0), Inches(4.9)
         )
         box.fill.solid()
         box.fill.fore_color.rgb = colors[i]
         box.line.fill.background()
 
         # 제목
-        title_box = slide.shapes.add_textbox(left + Inches(0.1), Inches(1.9), Inches(2.6), Inches(0.7))
+        title_box = slide.shapes.add_textbox(left + Inches(0.1), Inches(1.7), Inches(2.8), Inches(0.8))
         ttf = title_box.text_frame
         ttf.word_wrap = True
         tp = ttf.paragraphs[0]
@@ -410,20 +410,20 @@ def slide_05_value_chain(prs):
         set_font(trun, size=26, bold=True, color=WHITE)
 
         # 내용
-        content_box = slide.shapes.add_textbox(left + Inches(0.2), Inches(2.7), Inches(2.4), Inches(2.8))
+        content_box = slide.shapes.add_textbox(left + Inches(0.15), Inches(2.6), Inches(2.7), Inches(3.6))
         ctf = content_box.text_frame
         ctf.word_wrap = True
         for j, line in enumerate(content.split('\n')):
             cp = ctf.paragraphs[0] if j == 0 else ctf.add_paragraph()
-            cp.space_after = Pt(6)
+            cp.space_after = Pt(8)
             crun = cp.add_run()
             crun.text = f"  {line}"
             set_font(crun, size=16, color=WHITE)
 
         # 화살표 (마지막 제외)
         if i < 3:
-            arrow_left = left + Inches(2.85)
-            arrow_box = slide.shapes.add_textbox(arrow_left, Inches(3.5), Inches(0.3), Inches(0.5))
+            arrow_left = left + Inches(3.02)
+            arrow_box = slide.shapes.add_textbox(arrow_left, Inches(3.7), Inches(0.3), Inches(0.5))
             atf = arrow_box.text_frame
             ap = atf.paragraphs[0]
             ap.alignment = PP_ALIGN.CENTER
@@ -432,9 +432,9 @@ def slide_05_value_chain(prs):
             set_font(arun, size=28, bold=True, color=NAVY)
 
     # 하단 설명
-    tf = add_body_textbox(slide, top=Inches(6.0), height=Inches(0.8))
-    add_bullet_point(tf, "2050 글로벌 수소 운송: 파이프라인 55% + 암모니아 해상운송 40%", first=True, size=16, color=MEDIUM_GRAY)
-    add_bullet_point(tf, "수소 저장·운송 시장: $21.7B (2030) → $566B (2050)", size=16, color=MEDIUM_GRAY)
+    tf = add_body_textbox(slide, top=Inches(6.7), height=Inches(0.6))
+    add_bullet_point(tf, "2050 글로벌 수소 운송: 파이프라인 55% + 암모니아 해상운송 40%", first=True, size=15, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "수소 저장·운송 시장: $21.7B (2030) → $566B (2050)", size=15, color=MEDIUM_GRAY)
 
 
 def slide_06_production(prs):
