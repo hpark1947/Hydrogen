@@ -82,7 +82,7 @@ def add_slide_number(slide, num, total=18):
     p.alignment = PP_ALIGN.RIGHT
     run = p.add_run()
     run.text = f"{num} / {total}"
-    set_font(run, size=10, color=MEDIUM_GRAY)
+    set_font(run, size=12, color=MEDIUM_GRAY)
 
 
 def add_footer_line(slide):
@@ -107,7 +107,7 @@ def add_title_text(slide, title_text, left=Inches(0.6), top=Inches(0.2),
     p.alignment = PP_ALIGN.LEFT
     run = p.add_run()
     run.text = title_text
-    set_font(run, size=28, bold=True, color=WHITE)
+    set_font(run, size=34, bold=True, color=WHITE)
     return txBox
 
 
@@ -164,14 +164,14 @@ def set_cell(table, row, col, text, size=12, bold=False, color=DARK_GRAY,
         cell.fill.fore_color.rgb = fill_color
 
 
-def style_header_row(table, headers, size=13):
+def style_header_row(table, headers, size=16):
     """테이블 헤더 행 스타일"""
     for i, h in enumerate(headers):
         set_cell(table, 0, i, h, size=size, bold=True, color=WHITE,
                  alignment=PP_ALIGN.CENTER, fill_color=TABLE_HEADER_BG)
 
 
-def style_data_rows(table, data, start_row=1, size=11):
+def style_data_rows(table, data, start_row=1, size=14):
     """테이블 데이터 행 스타일"""
     for r_idx, row_data in enumerate(data):
         row_num = start_row + r_idx
@@ -217,7 +217,7 @@ def slide_01_cover(prs):
     p.alignment = PP_ALIGN.CENTER
     run = p.add_run()
     run.text = "수소 에너지의 현재와 미래"
-    set_font(run, size=44, bold=True, color=WHITE)
+    set_font(run, size=52, bold=True, color=WHITE)
 
     # 서브타이틀
     p2 = tf.add_paragraph()
@@ -225,7 +225,7 @@ def slide_01_cover(prs):
     p2.space_before = Pt(12)
     run2 = p2.add_run()
     run2.text = "The Present and Future of Hydrogen Energy"
-    set_font(run2, size=20, color=GREEN)
+    set_font(run2, size=26, color=GREEN)
 
     # 하단 녹색 라인
     shape2 = slide.shapes.add_shape(
@@ -245,14 +245,14 @@ def slide_01_cover(prs):
     p3.alignment = PP_ALIGN.CENTER
     run3 = p3.add_run()
     run3.text = "수소 에너지 도서 3권 분석 기반 종합 발표"
-    set_font(run3, size=16, color=RGBColor(0xBB, 0xBB, 0xBB))
+    set_font(run3, size=22, color=RGBColor(0xBB, 0xBB, 0xBB))
 
     p4 = tf2.add_paragraph()
     p4.alignment = PP_ALIGN.CENTER
     p4.space_before = Pt(16)
     run4 = p4.add_run()
     run4.text = "2026.02"
-    set_font(run4, size=14, color=RGBColor(0x99, 0x99, 0x99))
+    set_font(run4, size=18, color=RGBColor(0x99, 0x99, 0x99))
 
 
 def slide_02_toc(prs):
@@ -286,10 +286,10 @@ def slide_02_toc(prs):
         p = tf.paragraphs[0]
         run_num = p.add_run()
         run_num.text = f"  {num}   "
-        set_font(run_num, size=16, bold=True, color=GREEN)
+        set_font(run_num, size=20, bold=True, color=GREEN)
         run_title = p.add_run()
         run_title.text = title
-        set_font(run_title, size=15, color=DARK_GRAY)
+        set_font(run_title, size=19, color=DARK_GRAY)
 
     # 우측 8개
     for i, (num, title) in enumerate(toc_items[8:]):
@@ -299,10 +299,10 @@ def slide_02_toc(prs):
         p = tf.paragraphs[0]
         run_num = p.add_run()
         run_num.text = f"  {num}   "
-        set_font(run_num, size=16, bold=True, color=GREEN)
+        set_font(run_num, size=20, bold=True, color=GREEN)
         run_title = p.add_run()
         run_title.text = title
-        set_font(run_title, size=15, color=DARK_GRAY)
+        set_font(run_title, size=19, color=DARK_GRAY)
 
 
 def slide_03_why_hydrogen(prs):
@@ -310,20 +310,20 @@ def slide_03_why_hydrogen(prs):
     slide = setup_content_slide(prs, "왜 수소인가?", 3)
     tf = add_body_textbox(slide)
 
-    add_bullet_point(tf, "수소(H2)는 우주에서 가장 풍부한 원소이자 궁극의 청정 에너지원", first=True, size=17, bold=True, color=NAVY)
-    add_bullet_point(tf, "연소 시 물(H2O)만 생성 — CO2 배출 제로", level=1, size=15)
-    add_bullet_point(tf, "에너지 저장 매체이자 탄소 없는 연료 (이중 역할)", level=1, size=15)
+    add_bullet_point(tf, "수소(H2)는 우주에서 가장 풍부한 원소이자 궁극의 청정 에너지원", first=True, size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "연소 시 물(H2O)만 생성 — CO2 배출 제로", level=1, size=18)
+    add_bullet_point(tf, "에너지 저장 매체이자 탄소 없는 연료 (이중 역할)", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "재생에너지만으로는 탄소중립 불가능", size=17, bold=True, color=NAVY)
-    add_bullet_point(tf, "태양광/풍력은 전력만 담당 — 총 에너지의 50%는 전기화 불가 (중공업, 장거리 수송, 계절저장)", level=1, size=15)
-    add_bullet_point(tf, "배터리 한계: EV 배터리 ~450kg, 대형 트럭용은 ~4,500kg → 적재 불가", level=1, size=15)
-    add_bullet_point(tf, "계절 저장(여름 잉여 → 겨울 수요): 배터리로는 물리적으로 불가능", level=1, size=15)
+    add_bullet_point(tf, "재생에너지만으로는 탄소중립 불가능", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "태양광/풍력은 전력만 담당 — 총 에너지의 50%는 전기화 불가 (중공업, 장거리 수송, 계절저장)", level=1, size=18)
+    add_bullet_point(tf, "배터리 한계: EV 배터리 ~450kg, 대형 트럭용은 ~4,500kg → 적재 불가", level=1, size=18)
+    add_bullet_point(tf, "계절 저장(여름 잉여 → 겨울 수요): 배터리로는 물리적으로 불가능", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "수소 + 전기 = '파워 커플'", size=17, bold=True, color=NAVY)
-    add_bullet_point(tf, "전기: 가정, 경차량  |  수소: 중공업, 장거리 수송, 계절 저장, 화학 공정", level=1, size=15)
-    add_bullet_point(tf, "섹터 커플링: 전기·수송·산업·난방을 하나로 연결하는 '만능 에너지 캐리어'", level=1, size=15)
+    add_bullet_point(tf, "수소 + 전기 = '파워 커플'", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "전기: 가정, 경차량  |  수소: 중공업, 장거리 수송, 계절 저장, 화학 공정", level=1, size=18)
+    add_bullet_point(tf, "섹터 커플링: 전기·수송·산업·난방을 하나로 연결하는 '만능 에너지 캐리어'", level=1, size=18)
 
     # 인용문 박스
     quote_box = slide.shapes.add_shape(
@@ -339,7 +339,7 @@ def slide_03_why_hydrogen(prs):
     qp.alignment = PP_ALIGN.CENTER
     qrun = qp.add_run()
     qrun.text = '"청정에너지는 더러운 에너지만큼 저렴해질 때까지 대세가 되지 않는다." — Marco Alvera'
-    set_font(qrun, size=13, color=NAVY, bold=True)
+    set_font(qrun, size=16, color=NAVY, bold=True)
 
 
 def slide_04_hydrogen_types(prs):
@@ -370,8 +370,8 @@ def slide_04_hydrogen_types(prs):
 
     # 전환 로드맵
     tf = add_body_textbox(slide, top=Inches(5.4), height=Inches(1.5))
-    add_bullet_point(tf, "전환 로드맵 (3권 공통 합의)", first=True, size=16, bold=True, color=NAVY)
-    add_bullet_point(tf, "현재: 그레이 지배(75%)  →  2020~30s: 블루 (다리 역할)  →  2040~50: 그린 전면 확산", level=1, size=14)
+    add_bullet_point(tf, "전환 로드맵 (3권 공통 합의)", first=True, size=20, bold=True, color=NAVY)
+    add_bullet_point(tf, "현재: 그레이 지배(75%)  →  2020~30s: 블루 (다리 역할)  →  2040~50: 그린 전면 확산", level=1, size=17)
 
 
 def slide_05_value_chain(prs):
@@ -407,7 +407,7 @@ def slide_05_value_chain(prs):
         tp.alignment = PP_ALIGN.CENTER
         trun = tp.add_run()
         trun.text = title
-        set_font(trun, size=22, bold=True, color=WHITE)
+        set_font(trun, size=26, bold=True, color=WHITE)
 
         # 내용
         content_box = slide.shapes.add_textbox(left + Inches(0.2), Inches(2.7), Inches(2.4), Inches(2.8))
@@ -418,7 +418,7 @@ def slide_05_value_chain(prs):
             cp.space_after = Pt(6)
             crun = cp.add_run()
             crun.text = f"  {line}"
-            set_font(crun, size=13, color=WHITE)
+            set_font(crun, size=16, color=WHITE)
 
         # 화살표 (마지막 제외)
         if i < 3:
@@ -429,12 +429,12 @@ def slide_05_value_chain(prs):
             ap.alignment = PP_ALIGN.CENTER
             arun = ap.add_run()
             arun.text = "→"
-            set_font(arun, size=24, bold=True, color=NAVY)
+            set_font(arun, size=28, bold=True, color=NAVY)
 
     # 하단 설명
     tf = add_body_textbox(slide, top=Inches(6.0), height=Inches(0.8))
-    add_bullet_point(tf, "2050 글로벌 수소 운송: 파이프라인 55% + 암모니아 해상운송 40%", first=True, size=14, color=MEDIUM_GRAY)
-    add_bullet_point(tf, "수소 저장·운송 시장: $21.7B (2030) → $566B (2050)", size=14, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "2050 글로벌 수소 운송: 파이프라인 55% + 암모니아 해상운송 40%", first=True, size=16, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "수소 저장·운송 시장: $21.7B (2030) → $566B (2050)", size=16, color=MEDIUM_GRAY)
 
 
 def slide_06_production(prs):
@@ -463,8 +463,8 @@ def slide_06_production(prs):
     style_data_rows(table, data)
 
     tf = add_body_textbox(slide, top=Inches(6.1), height=Inches(0.8))
-    add_bullet_point(tf, "2024년 글로벌 수전해 설비용량: 2 GW  |  시스템 비용 목표: $250~500/kW", first=True, size=14, color=MEDIUM_GRAY)
-    add_bullet_point(tf, "KAIST: 백금 무함유 PEM 수전해 기술, 단원자 귀금속 AEM 촉매 개발", size=14, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "2024년 글로벌 수전해 설비용량: 2 GW  |  시스템 비용 목표: $250~500/kW", first=True, size=16, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "KAIST: 백금 무함유 PEM 수전해 기술, 단원자 귀금속 AEM 촉매 개발", size=16, color=MEDIUM_GRAY)
 
 
 def slide_07_storage_transport(prs):
@@ -493,7 +493,7 @@ def slide_07_storage_transport(prs):
     style_data_rows(table, data)
 
     tf = add_body_textbox(slide, top=Inches(6.3), height=Inches(0.6))
-    add_bullet_point(tf, "Snam(이탈리아): 기존 천연가스 배관의 70%가 수소 호환  |  배관 1km = 수소 12톤 저장 = 4만 가구 1일 전력", first=True, size=13, color=MEDIUM_GRAY)
+    add_bullet_point(tf, "Snam(이탈리아): 기존 천연가스 배관의 70%가 수소 호환  |  배관 1km = 수소 12톤 저장 = 4만 가구 1일 전력", first=True, size=16, color=MEDIUM_GRAY)
 
 
 def slide_08_applications(prs):
@@ -545,7 +545,7 @@ def slide_08_applications(prs):
         tp.alignment = PP_ALIGN.CENTER
         trun = tp.add_run()
         trun.text = sector_name
-        set_font(trun, size=20, bold=True, color=WHITE)
+        set_font(trun, size=24, bold=True, color=WHITE)
 
         # 항목들
         content_box = slide.shapes.add_textbox(left + Inches(0.15), Inches(2.6), Inches(2.7), Inches(3.2))
@@ -556,14 +556,14 @@ def slide_08_applications(prs):
             cp.space_after = Pt(8)
             crun = cp.add_run()
             crun.text = f"  {item}"
-            set_font(crun, size=13, color=DARK_GRAY)
+            set_font(crun, size=16, color=DARK_GRAY)
 
     # 하단 포인트
     tf = add_body_textbox(slide, top=Inches(6.0), height=Inches(0.8))
     add_bullet_point(tf, "핵심 개념: 섹터 커플링 — 수소가 전기·수송·산업·난방을 하나로 연결하는 '만능 에너지 캐리어'",
-                     first=True, size=14, bold=True, color=NAVY)
+                     first=True, size=17, bold=True, color=NAVY)
     add_bullet_point(tf, "장거리 트럭(2040): 최대 단일 수소 수요 분야 (~80 Mtpa)  |  항공(2050): ~50 Mtpa (e-fuel 기반)",
-                     size=13, color=MEDIUM_GRAY)
+                     size=16, color=MEDIUM_GRAY)
 
 
 def slide_09_h2_vs_battery(prs):
@@ -596,7 +596,7 @@ def slide_09_h2_vs_battery(prs):
 
     tf = add_body_textbox(slide, top=Inches(6.6), height=Inches(0.4))
     add_bullet_point(tf, "수소와 전기는 경쟁이 아닌 보완 — 전기화 불가 영역에서 수소가 핵심 역할",
-                     first=True, size=14, bold=True, color=NAVY)
+                     first=True, size=18, bold=True, color=NAVY)
 
 
 def slide_10_global_market(prs):
@@ -624,7 +624,7 @@ def slide_10_global_market(prs):
     table.columns[1].width = Inches(2.7)
 
     style_header_row(table, headers)
-    style_data_rows(table, data, size=12)
+    style_data_rows(table, data, size=14)
 
     # 비용 하락 추이 (우측)
     cost_title = slide.shapes.add_textbox(Inches(6.8), Inches(1.6), Inches(5.5), Inches(0.5))
@@ -632,7 +632,7 @@ def slide_10_global_market(prs):
     cp = ctf.paragraphs[0]
     crun = cp.add_run()
     crun.text = "그린수소 비용 하락 추이 ($/kg)"
-    set_font(crun, size=16, bold=True, color=NAVY)
+    set_font(crun, size=20, bold=True, color=NAVY)
 
     cost_headers = ["시기", "비용", "vs 화석연료"]
     cost_data = [
@@ -652,13 +652,13 @@ def slide_10_global_market(prs):
     cost_table.columns[2].width = Inches(2.2)
 
     style_header_row(cost_table, cost_headers)
-    style_data_rows(cost_table, cost_data, size=12)
+    style_data_rows(cost_table, cost_data, size=14)
 
     # 하단 비용 목표
     tf = add_body_textbox(slide, top=Inches(5.7), height=Inches(1.2))
-    add_bullet_point(tf, "주요 비용 목표", first=True, size=15, bold=True, color=NAVY)
-    add_bullet_point(tf, "US DOE: $1/kg (2031)  |  EU: $1.5~3/kg (2030)  |  한국: 3,500원/kg (2030) → 2,500원/kg (2050)", level=1, size=13)
-    add_bullet_point(tf, "Green Hydrogen Catapult (7개 글로벌 기업): $2/kg (2026), 25GW 수전해기, 500만톤/년, $1,100억 투자", level=1, size=13)
+    add_bullet_point(tf, "주요 비용 목표", first=True, size=18, bold=True, color=NAVY)
+    add_bullet_point(tf, "US DOE: $1/kg (2031)  |  EU: $1.5~3/kg (2030)  |  한국: 3,500원/kg (2030) → 2,500원/kg (2050)", level=1, size=16)
+    add_bullet_point(tf, "Green Hydrogen Catapult (7개 글로벌 기업): $2/kg (2026), 25GW 수전해기, 500만톤/년, $1,100억 투자", level=1, size=16)
 
 
 def slide_11_us_strategy(prs):
@@ -666,19 +666,19 @@ def slide_11_us_strategy(prs):
     slide = setup_content_slide(prs, "미국 수소 전략  |  IRA와 수소허브", 11)
     tf = add_body_textbox(slide)
 
-    add_bullet_point(tf, "IRA (인플레이션 감축법) — Section 45V", first=True, size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "청정수소 생산세액공제: CO2 배출량 기준 4단계, 최대 $3/kg", level=1, size=15)
-    add_bullet_point(tf, "10년간 총 ~$130억 규모 지원", level=1, size=15)
-    add_bullet_point(tf, "석유·가스 초강대국에서 수소 초강대국으로의 확장 전략", level=1, size=15)
+    add_bullet_point(tf, "IRA (인플레이션 감축법) — Section 45V", first=True, size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "청정수소 생산세액공제: CO2 배출량 기준 4단계, 최대 $3/kg", level=1, size=18)
+    add_bullet_point(tf, "10년간 총 ~$130억 규모 지원", level=1, size=18)
+    add_bullet_point(tf, "석유·가스 초강대국에서 수소 초강대국으로의 확장 전략", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "DOE Hydrogen Shot", size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "목표: $1/kg by 2031 (1-1-1 비전)", level=1, size=15)
+    add_bullet_point(tf, "DOE Hydrogen Shot", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "목표: $1/kg by 2031 (1-1-1 비전)", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "수소허브 프로그램 (H2Hubs)", size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "지역별 생산-저장-활용 통합 생태계 구축", level=1, size=15)
-    add_bullet_point(tf, "생산지-소비지-인프라를 클러스터로 연결", level=1, size=15)
+    add_bullet_point(tf, "수소허브 프로그램 (H2Hubs)", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "지역별 생산-저장-활용 통합 생태계 구축", level=1, size=18)
+    add_bullet_point(tf, "생산지-소비지-인프라를 클러스터로 연결", level=1, size=18)
 
     # IRA 세액공제 테이블
     headers = ["CO2 배출 (kg CO2/kg H2)", "세액공제 ($/kg)"]
@@ -694,8 +694,8 @@ def slide_11_us_strategy(prs):
     )
     table.columns[0].width = Inches(2.8)
     table.columns[1].width = Inches(2.0)
-    style_header_row(table, headers, size=12)
-    style_data_rows(table, data, size=11)
+    style_header_row(table, headers, size=15)
+    style_data_rows(table, data, size=14)
 
 
 def slide_12_eu_strategy(prs):
@@ -703,21 +703,21 @@ def slide_12_eu_strategy(prs):
     slide = setup_content_slide(prs, "유럽 수소 전략  |  REPowerEU", 12)
     tf = add_body_textbox(slide)
 
-    add_bullet_point(tf, "REPowerEU 목표 (2030)", first=True, size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "그린수소 1,000만 톤 자체 생산 + 1,000만 톤 수입", level=1, size=15)
-    add_bullet_point(tf, "수소 프로젝트 총 투자: $1,340억", level=1, size=15)
-    add_bullet_point(tf, "러시아 가스 의존 탈피 + 산업 경쟁력 확보 (이중 동기)", level=1, size=15)
+    add_bullet_point(tf, "REPowerEU 목표 (2030)", first=True, size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "그린수소 1,000만 톤 자체 생산 + 1,000만 톤 수입", level=1, size=18)
+    add_bullet_point(tf, "수소 프로젝트 총 투자: $1,340억", level=1, size=18)
+    add_bullet_point(tf, "러시아 가스 의존 탈피 + 산업 경쟁력 확보 (이중 동기)", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "European Hydrogen Backbone (유럽 수소 배관망)", size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "2030: 31,500km  →  2040: 57,600km", level=1, size=15)
-    add_bullet_point(tf, "IPCEI Hy2Infra: 최대 69억 유로 공적 자금", level=1, size=15)
-    add_bullet_point(tf, "독일 단독: 200억 유로 핵심 수소 네트워크 투자", level=1, size=15)
+    add_bullet_point(tf, "European Hydrogen Backbone (유럽 수소 배관망)", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "2030: 31,500km  →  2040: 57,600km", level=1, size=18)
+    add_bullet_point(tf, "IPCEI Hy2Infra: 최대 69억 유로 공적 자금", level=1, size=18)
+    add_bullet_point(tf, "독일 단독: 200억 유로 핵심 수소 네트워크 투자", level=1, size=18)
 
     add_bullet_point(tf, "")
-    add_bullet_point(tf, "SoutH2 Corridor", size=18, bold=True, color=NAVY)
-    add_bullet_point(tf, "북아프리카 → 이탈리아 → 오스트리아 → 독일, 3,300km 파이프라인", level=1, size=15)
-    add_bullet_point(tf, "유럽 에너지 안보의 핵심 인프라로 부상", level=1, size=15)
+    add_bullet_point(tf, "SoutH2 Corridor", size=22, bold=True, color=NAVY)
+    add_bullet_point(tf, "북아프리카 → 이탈리아 → 오스트리아 → 독일, 3,300km 파이프라인", level=1, size=18)
+    add_bullet_point(tf, "유럽 에너지 안보의 핵심 인프라로 부상", level=1, size=18)
 
 
 def slide_13_china_mideast(prs):
@@ -726,32 +726,32 @@ def slide_13_china_mideast(prs):
 
     # 중국 섹션
     tf = add_body_textbox(slide, width=Inches(5.5), height=Inches(5.0))
-    add_bullet_point(tf, "중국 — 세계 최대 수소 생산국", first=True, size=17, bold=True, color=NAVY)
-    add_bullet_point(tf, "생산: 3,500만 톤 (2023), 용량 4,900만 톤", level=1, size=14)
-    add_bullet_point(tf, "수소 산업 규모 1조 위안 돌파", level=1, size=14)
-    add_bullet_point(tf, "수전해기: 글로벌 설치용량 65%\n    확정 주문 75% 점유", level=1, size=14)
-    add_bullet_point(tf, "신장 쿠차 프로젝트: 세계 최초\n    대규모 상업 그린수소 (1,000m³/hr)", level=1, size=14)
-    add_bullet_point(tf, "그린수소 프로젝트: 600+건 진행 중", level=1, size=14)
-    add_bullet_point(tf, "FCEV 목표: 2025년 5만 대", level=1, size=14)
+    add_bullet_point(tf, "중국 — 세계 최대 수소 생산국", first=True, size=21, bold=True, color=NAVY)
+    add_bullet_point(tf, "생산: 3,500만 톤 (2023), 용량 4,900만 톤", level=1, size=17)
+    add_bullet_point(tf, "수소 산업 규모 1조 위안 돌파", level=1, size=17)
+    add_bullet_point(tf, "수전해기: 글로벌 설치용량 65%\n    확정 주문 75% 점유", level=1, size=17)
+    add_bullet_point(tf, "신장 쿠차 프로젝트: 세계 최초\n    대규모 상업 그린수소 (1,000m³/hr)", level=1, size=17)
+    add_bullet_point(tf, "그린수소 프로젝트: 600+건 진행 중", level=1, size=17)
+    add_bullet_point(tf, "FCEV 목표: 2025년 5만 대", level=1, size=17)
 
     # 중동 섹션
     tf2 = add_body_textbox(slide, left=Inches(6.8), width=Inches(5.5), height=Inches(5.0))
-    add_bullet_point(tf2, "중동 — 석유 수출국의 대전환", first=True, size=17, bold=True, color=NAVY)
+    add_bullet_point(tf2, "중동 — 석유 수출국의 대전환", first=True, size=21, bold=True, color=NAVY)
 
     add_bullet_point(tf2, "")
-    add_bullet_point(tf2, "사우디아라비아", size=15, bold=True, color=LIGHT_NAVY)
-    add_bullet_point(tf2, "세계 최대 석유 수출국 → 수소 수출국 전환", level=1, size=14)
-    add_bullet_point(tf2, "NEOM Helios: $50억, 세계 최대 그린수소", level=1, size=14)
+    add_bullet_point(tf2, "사우디아라비아", size=18, bold=True, color=LIGHT_NAVY)
+    add_bullet_point(tf2, "세계 최대 석유 수출국 → 수소 수출국 전환", level=1, size=17)
+    add_bullet_point(tf2, "NEOM Helios: $50억, 세계 최대 그린수소", level=1, size=17)
 
     add_bullet_point(tf2, "")
-    add_bullet_point(tf2, "UAE", size=15, bold=True, color=LIGHT_NAVY)
-    add_bullet_point(tf2, "블루수소 + 암모니아 수출 확대", level=1, size=14)
-    add_bullet_point(tf2, "아부다비: 연 20만톤 암모니아 → 한국 수출", level=1, size=14)
+    add_bullet_point(tf2, "UAE", size=18, bold=True, color=LIGHT_NAVY)
+    add_bullet_point(tf2, "블루수소 + 암모니아 수출 확대", level=1, size=17)
+    add_bullet_point(tf2, "아부다비: 연 20만톤 암모니아 → 한국 수출", level=1, size=17)
 
     add_bullet_point(tf2, "")
-    add_bullet_point(tf2, "오만", size=15, bold=True, color=LIGHT_NAVY)
-    add_bullet_point(tf2, "그린수소 허브 추진", level=1, size=14)
-    add_bullet_point(tf2, "POSCO 컨소시엄: 47년 독점 개발권 확보", level=1, size=14)
+    add_bullet_point(tf2, "오만", size=18, bold=True, color=LIGHT_NAVY)
+    add_bullet_point(tf2, "그린수소 허브 추진", level=1, size=17)
+    add_bullet_point(tf2, "POSCO 컨소시엄: 47년 독점 개발권 확보", level=1, size=17)
 
 
 def slide_14_korea_policy(prs):
@@ -780,8 +780,8 @@ def slide_14_korea_policy(prs):
     table.columns[0].width = Inches(3.5)
     table.columns[1].width = Inches(8.8)
 
-    style_header_row(table, headers, size=14)
-    style_data_rows(table, data, size=12)
+    style_header_row(table, headers, size=16)
+    style_data_rows(table, data, size=14)
 
 
 def slide_15_korea_companies(prs):
@@ -806,12 +806,12 @@ def slide_15_korea_companies(prs):
     table.columns[1].width = Inches(2.2)
     table.columns[2].width = Inches(8.3)
 
-    style_header_row(table, headers, size=14)
-    style_data_rows(table, data, size=11)
+    style_header_row(table, headers, size=16)
+    style_data_rows(table, data, size=14)
 
     tf = add_body_textbox(slide, top=Inches(6.5), height=Inches(0.5))
     add_bullet_point(tf, "5대 그룹 합계: 2030년까지 $380억 (약 43조원) 투자 계획",
-                     first=True, size=15, bold=True, color=NAVY)
+                     first=True, size=18, bold=True, color=NAVY)
 
 
 def slide_16_key_numbers(prs):
@@ -842,8 +842,8 @@ def slide_16_key_numbers(prs):
     table.columns[1].width = Inches(4.5)
     table.columns[2].width = Inches(6.3)
 
-    style_header_row(table, headers, size=14)
-    style_data_rows(table, data, size=12)
+    style_header_row(table, headers, size=16)
+    style_data_rows(table, data, size=14)
 
 
 def slide_17_challenges(prs):
@@ -897,7 +897,7 @@ def slide_17_challenges(prs):
         tp.alignment = PP_ALIGN.CENTER
         trun = tp.add_run()
         trun.text = title
-        set_font(trun, size=16, bold=True, color=WHITE)
+        set_font(trun, size=20, bold=True, color=WHITE)
 
         # 내용
         content_box = slide.shapes.add_textbox(left + Inches(0.2), top + Inches(0.65), Inches(5.6), Inches(1.8))
@@ -908,7 +908,7 @@ def slide_17_challenges(prs):
             cp.space_after = Pt(4)
             crun = cp.add_run()
             crun.text = f"  {item}"
-            set_font(crun, size=12, color=DARK_GRAY)
+            set_font(crun, size=15, color=DARK_GRAY)
 
     # 인용문
     quote_box = slide.shapes.add_shape(
@@ -924,7 +924,7 @@ def slide_17_challenges(prs):
     qp.alignment = PP_ALIGN.CENTER
     qrun = qp.add_run()
     qrun.text = '"저탄소 수소는 실패하는 것이 아니라, 닷컴 시대 초기를 겪고 있는 것이다." — ERM Report (2024)'
-    set_font(qrun, size=12, color=NAVY, bold=True)
+    set_font(qrun, size=15, color=NAVY, bold=True)
 
 
 def slide_18_conclusion(prs):
@@ -949,7 +949,7 @@ def slide_18_conclusion(prs):
     tp.alignment = PP_ALIGN.CENTER
     trun = tp.add_run()
     trun.text = "결론 및 시사점"
-    set_font(trun, size=36, bold=True, color=WHITE)
+    set_font(trun, size=42, bold=True, color=WHITE)
 
     # 핵심 메시지 3가지
     messages = [
@@ -977,7 +977,7 @@ def slide_18_conclusion(prs):
         np_.alignment = PP_ALIGN.CENTER
         nrun = np_.add_run()
         nrun.text = num
-        set_font(nrun, size=20, bold=True, color=WHITE)
+        set_font(nrun, size=24, bold=True, color=WHITE)
 
         # 제목
         msg_title = slide.shapes.add_textbox(Inches(1.9), top - Inches(0.05), Inches(9.5), Inches(0.5))
@@ -985,10 +985,10 @@ def slide_18_conclusion(prs):
         mp = mtf.paragraphs[0]
         mrun = mp.add_run()
         mrun.text = title
-        set_font(mrun, size=20, bold=True, color=GREEN)
+        set_font(mrun, size=24, bold=True, color=GREEN)
 
         # 설명
-        msg_desc = slide.shapes.add_textbox(Inches(1.9), top + Inches(0.45), Inches(9.5), Inches(1.0))
+        msg_desc = slide.shapes.add_textbox(Inches(1.9), top + Inches(0.5), Inches(9.5), Inches(1.0))
         dtf = msg_desc.text_frame
         dtf.word_wrap = True
         for j, line in enumerate(desc.split('\n')):
@@ -996,7 +996,7 @@ def slide_18_conclusion(prs):
             dp.space_after = Pt(3)
             drun = dp.add_run()
             drun.text = f"  {line}"
-            set_font(drun, size=13, color=RGBColor(0xCC, 0xCC, 0xCC))
+            set_font(drun, size=16, color=RGBColor(0xCC, 0xCC, 0xCC))
 
     # 하단 감사 메시지
     shape2 = slide.shapes.add_shape(
@@ -1014,7 +1014,7 @@ def slide_18_conclusion(prs):
     tp2.alignment = PP_ALIGN.CENTER
     trun2 = tp2.add_run()
     trun2.text = "감사합니다  |  Thank You"
-    set_font(trun2, size=24, bold=True, color=WHITE)
+    set_font(trun2, size=30, bold=True, color=WHITE)
 
     add_slide_number(slide, 18)
 
