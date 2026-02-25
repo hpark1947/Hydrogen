@@ -1,7 +1,8 @@
 """
 수소 에너지 발표 PPT 생성 스크립트
-- 18장 슬라이드, 비즈니스 프로페셔널 디자인
+- 24장 슬라이드, 비즈니스 프로페셔널 디자인
 - python-pptx 기반
+- 슬라이드 16~21: 한국 연료전지 연구현황 (2025~2026)
 """
 
 from pptx import Presentation
@@ -72,7 +73,7 @@ def add_green_accent_line(slide, top=Inches(1.2)):
     shape.line.fill.background()
 
 
-def add_slide_number(slide, num, total=18):
+def add_slide_number(slide, num, total=24):
     """슬라이드 번호"""
     txBox = slide.shapes.add_textbox(
         Inches(12.0), Inches(7.0), Inches(1.2), Inches(0.4)
@@ -273,36 +274,42 @@ def slide_02_toc(prs):
         ("11", "중국 · 중동 수소 전략"),
         ("12", "한국 수소 정책"),
         ("13", "한국 기업 투자 현황"),
-        ("14", "수소 경제 핵심 수치"),
-        ("15", "도전과 과제"),
-        ("16", "결론 및 시사점"),
+        ("14", "연료전지 시장 · 글로벌 위상"),
+        ("15", "연료전지 핵심 기술 동향"),
+        ("16", "연료전지 최신 연구 성과"),
+        ("17", "연료전지 기업 동향"),
+        ("18", "연료전지 정책 · AI 데이터센터"),
+        ("19", "연료전지 종합 평가"),
+        ("20", "수소 경제 핵심 수치"),
+        ("21", "도전과 과제"),
+        ("22", "결론 및 시사점"),
     ]
 
-    # 좌측 8개
-    for i, (num, title) in enumerate(toc_items[:8]):
-        top = Inches(1.6) + Inches(i * 0.62)
-        txBox = slide.shapes.add_textbox(Inches(0.8), top, Inches(5.5), Inches(0.55))
+    # 좌측 11개
+    for i, (num, title) in enumerate(toc_items[:11]):
+        top = Inches(1.6) + Inches(i * 0.47)
+        txBox = slide.shapes.add_textbox(Inches(0.8), top, Inches(5.5), Inches(0.45))
         tf = txBox.text_frame
         p = tf.paragraphs[0]
         run_num = p.add_run()
         run_num.text = f"  {num}   "
-        set_font(run_num, size=20, bold=True, color=GREEN)
+        set_font(run_num, size=17, bold=True, color=GREEN)
         run_title = p.add_run()
         run_title.text = title
-        set_font(run_title, size=19, color=DARK_GRAY)
+        set_font(run_title, size=16, color=DARK_GRAY)
 
-    # 우측 8개
-    for i, (num, title) in enumerate(toc_items[8:]):
-        top = Inches(1.6) + Inches(i * 0.62)
-        txBox = slide.shapes.add_textbox(Inches(6.8), top, Inches(5.5), Inches(0.55))
+    # 우측 11개
+    for i, (num, title) in enumerate(toc_items[11:]):
+        top = Inches(1.6) + Inches(i * 0.47)
+        txBox = slide.shapes.add_textbox(Inches(6.8), top, Inches(5.5), Inches(0.45))
         tf = txBox.text_frame
         p = tf.paragraphs[0]
         run_num = p.add_run()
         run_num.text = f"  {num}   "
-        set_font(run_num, size=20, bold=True, color=GREEN)
+        set_font(run_num, size=17, bold=True, color=GREEN)
         run_title = p.add_run()
         run_title.text = title
-        set_font(run_title, size=19, color=DARK_GRAY)
+        set_font(run_title, size=16, color=DARK_GRAY)
 
 
 def slide_03_why_hydrogen(prs):
@@ -814,9 +821,303 @@ def slide_15_korea_companies(prs):
                      first=True, size=18, bold=True, color=NAVY)
 
 
-def slide_16_key_numbers(prs):
-    """슬라이드 16: 수소 경제 핵심 수치"""
-    slide = setup_content_slide(prs, "수소 경제 핵심 수치  |  Summary Stats", 16)
+def slide_16_fc_market(prs):
+    """슬라이드 16: 한국 연료전지 시장 규모 및 글로벌 위상"""
+    slide = setup_content_slide(prs, "한국 연료전지 시장  |  글로벌 위상", 16)
+
+    headers = ["지표", "수치"]
+    data = [
+        ["발전용 연료전지 설치량 (2023)", "1,036MW (약 1.1GW) 운영 중"],
+        ["건물용 연료전지 시장 (2025)", "1조 8,200억 원"],
+        ["건물용 연료전지 시장 (2030 전망)", "3조 8,600억 원"],
+        ["글로벌 발전용 연료전지 점유율 (2021)", "45% — 세계 1위"],
+        ["글로벌 수소차 시장 점유율 (현대차)", "45% — 세계 1위"],
+        ["글로벌 연료전지 시장 (2028 전망)", "$87억 (연평균 21.7% 성장)"],
+        ["아시아태평양 시장 비중", "61.21% (한국·중국 주도)"],
+    ]
+
+    _, table = create_table(
+        slide, len(data) + 1, len(headers),
+        Inches(0.6), Inches(1.6), Inches(12.1), Inches(4.2)
+    )
+    table.columns[0].width = Inches(5.0)
+    table.columns[1].width = Inches(7.1)
+
+    style_header_row(table, headers)
+    style_data_rows(table, data)
+
+    tf = add_body_textbox(slide, top=Inches(6.1), height=Inches(0.8))
+    add_bullet_point(tf, "한국은 발전용 연료전지 설치 규모와 수소전기차 시장에서 모두 글로벌 1위",
+                     first=True, size=17, bold=True, color=NAVY)
+    add_bullet_point(tf, "핵심 부품·소재의 수입의존도가 높아 독자 기술 확보가 시급한 상황",
+                     size=16, color=MEDIUM_GRAY)
+
+
+def slide_17_fc_tech(prs):
+    """슬라이드 17: 연료전지 핵심 기술별 연구 동향"""
+    slide = setup_content_slide(prs, "연료전지 핵심 기술  |  PEMFC · SOFC · PAFC", 17)
+
+    headers = ["구분", "PEMFC (고분자전해질)", "SOFC (고체산화물)", "PAFC (인산형)"]
+    data = [
+        ["작동 온도", "~80°C (저온)", "600~1000°C (고온)", "150~200°C (중온)"],
+        ["효율", "~60%", "45~62%", "~40%"],
+        ["주요 용도", "수소전기차(FCEV)\n가정·건물용", "발전용·데이터센터\n건물 분산전원", "대규모 발전용"],
+        ["국내 주도기업", "현대자동차", "두산퓨얼셀\n블룸SK퓨얼셀", "두산퓨얼셀"],
+        ["최신 동향", "넥쏘 후속 양산 (2025.5)\nR&D~생산 일원화", "Ceres 기반 SOFC 양산\n600°C 중저온 작동", "1GW+ 누적 설치\n발전시장 주력"],
+    ]
+
+    _, table = create_table(
+        slide, len(data) + 1, len(headers),
+        Inches(0.4), Inches(1.6), Inches(12.5), Inches(4.5)
+    )
+    table.columns[0].width = Inches(1.8)
+    table.columns[1].width = Inches(3.6)
+    table.columns[2].width = Inches(3.6)
+    table.columns[3].width = Inches(3.5)
+
+    style_header_row(table, headers)
+    style_data_rows(table, data)
+
+    tf = add_body_textbox(slide, top=Inches(6.3), height=Inches(0.6))
+    add_bullet_point(tf, "SOEC(고체산화물 전해조): 그린수소 생산용 약 5MW 설비 확충 중  |  61.7% 발전효율 8kW SOFC KGS 인증",
+                     first=True, size=16, color=MEDIUM_GRAY)
+
+
+def slide_18_fc_research(prs):
+    """슬라이드 18: 연료전지 최신 연구 성과"""
+    slide = setup_content_slide(prs, "연료전지 최신 연구 성과  |  주요 논문", 18)
+
+    # KAIST 테이블 제목
+    kaist_title = slide.shapes.add_textbox(Inches(0.6), Inches(1.5), Inches(5.0), Inches(0.4))
+    ktf = kaist_title.text_frame
+    kp = ktf.paragraphs[0]
+    krun = kp.add_run()
+    krun.text = "KAIST 연구진 성과"
+    set_font(krun, size=22, bold=True, color=NAVY)
+
+    headers = ["연구 내용", "게재지", "시기"]
+    data = [
+        ["연료전지 촉매 열화 원자 단위 3D 추적 (세계 최초)", "Nature Communications", "2025.8"],
+        ["백금-아연 나노입자 촉매 (백금 사용량 1/3 절감)", "Chemical Eng. Journal", "2025.2"],
+        ["이리듐 나노시트 촉매 (성능 13배 향상)", "ACS Nano", "2025.12"],
+    ]
+
+    _, table = create_table(
+        slide, len(data) + 1, len(headers),
+        Inches(0.6), Inches(2.0), Inches(12.1), Inches(2.5)
+    )
+    table.columns[0].width = Inches(6.0)
+    table.columns[1].width = Inches(3.5)
+    table.columns[2].width = Inches(2.6)
+
+    style_header_row(table, headers)
+    style_data_rows(table, data)
+
+    # 기타 연구기관
+    tf = add_body_textbox(slide, top=Inches(4.8), height=Inches(2.0))
+    add_bullet_point(tf, "기타 연구기관 성과", first=True, size=20, bold=True, color=NAVY)
+    add_bullet_point(tf, "서울과학기술대: 수소 연료전지 트럭 국민 수용성 조사 (1,000가구) — Transport Policy (2025.12)",
+                     level=1, size=16)
+    add_bullet_point(tf, "원광대: SOFC용 금속 기판 소재 연구 / 암모니아 연료 SOFC 페로브스카이트 촉매 연구",
+                     level=1, size=16)
+    add_bullet_point(tf, "공통: 한국연구재단 지원 기반, Nature·ACS Nano 등 탑 저널 게재 성과 다수",
+                     level=1, size=16)
+
+
+def slide_19_fc_companies(prs):
+    """슬라이드 19: 연료전지 주요 기업 동향"""
+    slide = setup_content_slide(prs, "연료전지 주요 기업 동향  |  2025~2026", 19)
+
+    headers = ["기업", "핵심 사업", "최신 동향 (2025~2026)"]
+    data = [
+        ["현대자동차", "수소전기차(FCEV)\n연료전지 시스템",
+         "신형 넥쏘 양산 (2025.5, 7년 만)\n현대모비스 연료전지 사업 인수·일원화"],
+        ["두산퓨얼셀", "PAFC·SOFC\n발전용 연료전지",
+         "Ceres 기반 SOFC 양산 개시 (군산)\n2026 매출 전망 6,530억 원, 미국 DC 진출"],
+        ["SK에코플랜트\n블룸SK퓨얼셀", "SOFC\n청정수소 발전",
+         "부평 데이터센터 330kW SOFC 설치\n(국내 최초 데이터센터 연료전지)"],
+        ["KDCC\n(데이터센터연합)", "AI 데이터센터\n전력 공급",
+         "두산·효성·SK와 그린 연료전지\n전력공급 사업 협약 체결"],
+    ]
+
+    _, table = create_table(
+        slide, len(data) + 1, len(headers),
+        Inches(0.4), Inches(1.6), Inches(12.5), Inches(4.5)
+    )
+    table.columns[0].width = Inches(2.2)
+    table.columns[1].width = Inches(2.8)
+    table.columns[2].width = Inches(7.5)
+
+    style_header_row(table, headers)
+    style_data_rows(table, data)
+
+    tf = add_body_textbox(slide, top=Inches(6.3), height=Inches(0.6))
+    add_bullet_point(tf, "AI 데이터센터 전력 수요 급증 → 연료전지 분산전원 핵심 성장 동력으로 부상",
+                     first=True, size=17, bold=True, color=NAVY)
+
+
+def slide_20_fc_policy_ai(prs):
+    """슬라이드 20: 연료전지 정책 환경 및 AI 데이터센터"""
+    slide = setup_content_slide(prs, "연료전지 정책 · AI 데이터센터 성장 동력", 20)
+
+    # 좌측: 정책 환경
+    policy_title = slide.shapes.add_textbox(Inches(0.6), Inches(1.5), Inches(5.5), Inches(0.4))
+    ptf = policy_title.text_frame
+    pp = ptf.paragraphs[0]
+    prun = pp.add_run()
+    prun.text = "정책 환경 — 전력수급기본계획"
+    set_font(prun, size=20, bold=True, color=NAVY)
+
+    headers = ["기간", "연간 증설 목표"]
+    data = [
+        ["2027~2030년", "200MW/년"],
+        ["2031~2036년", "150MW/년"],
+        ["2037년 이후", "100MW/년"],
+    ]
+    _, table = create_table(
+        slide, len(data) + 1, len(headers),
+        Inches(0.6), Inches(2.0), Inches(5.5), Inches(2.0)
+    )
+    table.columns[0].width = Inches(2.8)
+    table.columns[1].width = Inches(2.7)
+    style_header_row(table, headers)
+    style_data_rows(table, data)
+
+    # CHPS 현황
+    tf_left = add_body_textbox(slide, left=Inches(0.6), top=Inches(4.2),
+                               width=Inches(5.5), height=Inches(2.5))
+    add_bullet_point(tf_left, "청정수소발전의무화제도(CHPS)", first=True, size=18, bold=True, color=NAVY)
+    add_bullet_point(tf_left, "2024년 세계 최초 시행", level=1, size=15)
+    add_bullet_point(tf_left, "계획 물량 대비 11.8% 낙찰 (흥행 실패)", level=1, size=15)
+    add_bullet_point(tf_left, "2025년 입찰 공고 후 취소 (정책 불확실성)", level=1, size=15)
+
+    # 우측: AI 데이터센터
+    ai_title = slide.shapes.add_textbox(Inches(6.8), Inches(1.5), Inches(5.5), Inches(0.4))
+    atf = ai_title.text_frame
+    ap = atf.paragraphs[0]
+    arun = ap.add_run()
+    arun.text = "AI 데이터센터 — 신성장 동력"
+    set_font(arun, size=20, bold=True, color=NAVY)
+
+    ai_headers = ["지표", "수치"]
+    ai_data = [
+        ["DC 전력 수요 (2025)", "4,461MW"],
+        ["DC 전력 수요 (2028)", "6,175MW (연 11%↑)"],
+        ["2030 전력 증가율", "최소 65% 증가"],
+    ]
+    _, ai_table = create_table(
+        slide, len(ai_data) + 1, len(ai_headers),
+        Inches(6.8), Inches(2.0), Inches(5.5), Inches(2.0)
+    )
+    ai_table.columns[0].width = Inches(2.8)
+    ai_table.columns[1].width = Inches(2.7)
+    style_header_row(ai_table, ai_headers)
+    style_data_rows(ai_table, ai_data)
+
+    tf_right = add_body_textbox(slide, left=Inches(6.8), top=Inches(4.2),
+                                width=Inches(5.5), height=Inches(2.5))
+    add_bullet_point(tf_right, "온사이트 분산전원의 부상", first=True, size=18, bold=True, color=NAVY)
+    add_bullet_point(tf_right, "송전망 포화 → 현장 발전 필수", level=1, size=15)
+    add_bullet_point(tf_right, "KDCC + 산업계 그린 연료전지 사업 착수", level=1, size=15)
+    add_bullet_point(tf_right, "자가발전·직접전력거래(PPA) 기반", level=1, size=15)
+
+
+def slide_21_fc_assessment(prs):
+    """슬라이드 21: 연료전지 종합 평가 및 과제"""
+    slide = setup_content_slide(prs, "연료전지 연구  |  종합 평가 및 과제", 21)
+
+    strengths = [
+        "발전용 연료전지 설치 규모 세계 1위",
+        "현대차 수소전기차 글로벌 점유율 1위",
+        "KAIST 등 세계적 기초연구 성과\n    (Nature, ACS Nano 등 탑 저널 게재)",
+        "두산퓨얼셀 중저온 SOFC 차별화 기술",
+        "세계 최초 수소법·청정수소 입찰제 시행",
+    ]
+    challenges = [
+        "핵심 부품·소재 수입의존도 높음",
+        "CHPS 입찰 흥행 실패 및 정책 불확실성",
+        "SOFC 스택 내구성 문제 (교체주기 짧음)",
+        "그레이 수소 → 그린·청정 수소 전환 미흡",
+        "수소 충전 인프라 부족 (모빌리티 대중화 지연)",
+    ]
+
+    # 강점 제목 바
+    s_title = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE,
+        Inches(0.4), Inches(1.6), Inches(5.8), Inches(0.55)
+    )
+    s_title.fill.solid()
+    s_title.fill.fore_color.rgb = NAVY
+    s_title.line.fill.background()
+    stf = s_title.text_frame
+    sp = stf.paragraphs[0]
+    sp.alignment = PP_ALIGN.CENTER
+    srun = sp.add_run()
+    srun.text = "강점"
+    set_font(srun, size=22, bold=True, color=WHITE)
+
+    s_content = slide.shapes.add_textbox(Inches(0.6), Inches(2.3), Inches(5.4), Inches(3.0))
+    sctf = s_content.text_frame
+    sctf.word_wrap = True
+    for j, item in enumerate(strengths):
+        cp = sctf.paragraphs[0] if j == 0 else sctf.add_paragraph()
+        cp.space_after = Pt(6)
+        crun = cp.add_run()
+        crun.text = f"  {item}"
+        set_font(crun, size=16, color=DARK_GRAY)
+
+    # 과제 제목 바
+    c_title = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE,
+        Inches(6.8), Inches(1.6), Inches(5.8), Inches(0.55)
+    )
+    c_title.fill.solid()
+    c_title.fill.fore_color.rgb = RGBColor(0xCC, 0x33, 0x33)
+    c_title.line.fill.background()
+    ctf_t = c_title.text_frame
+    cp_t = ctf_t.paragraphs[0]
+    cp_t.alignment = PP_ALIGN.CENTER
+    crun_t = cp_t.add_run()
+    crun_t.text = "과제"
+    set_font(crun_t, size=22, bold=True, color=WHITE)
+
+    c_content = slide.shapes.add_textbox(Inches(7.0), Inches(2.3), Inches(5.4), Inches(3.0))
+    cctf = c_content.text_frame
+    cctf.word_wrap = True
+    for j, item in enumerate(challenges):
+        cp = cctf.paragraphs[0] if j == 0 else cctf.add_paragraph()
+        cp.space_after = Pt(6)
+        crun = cp.add_run()
+        crun.text = f"  {item}"
+        set_font(crun, size=16, color=DARK_GRAY)
+
+    # 향후 전망 박스
+    outlook_box = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE,
+        Inches(0.8), Inches(5.6), Inches(11.7), Inches(1.2)
+    )
+    outlook_box.fill.solid()
+    outlook_box.fill.fore_color.rgb = RGBColor(0xE8, 0xF6, 0xEE)
+    outlook_box.line.fill.background()
+    otf = outlook_box.text_frame
+    otf.word_wrap = True
+    op = otf.paragraphs[0]
+    op.alignment = PP_ALIGN.CENTER
+    orun = op.add_run()
+    orun.text = "향후 전망"
+    set_font(orun, size=20, bold=True, color=NAVY)
+    op2 = otf.add_paragraph()
+    op2.alignment = PP_ALIGN.CENTER
+    op2.space_before = Pt(4)
+    orun2 = op2.add_run()
+    orun2.text = ("AI 데이터센터 전력 수요 급증 + 탄소중립 → 분산전원용 연료전지 지속 성장\n"
+                  "청정수소 정책 안정화, 핵심 소재 국산화, 그린수소 확대가 선두 유지의 관건")
+    set_font(orun2, size=16, color=DARK_GRAY)
+
+
+def slide_22_key_numbers(prs):
+    """슬라이드 22: 수소 경제 핵심 수치"""
+    slide = setup_content_slide(prs, "수소 경제 핵심 수치  |  Summary Stats", 22)
 
     headers = ["분류", "지표", "수치"]
     data = [
@@ -846,9 +1147,9 @@ def slide_16_key_numbers(prs):
     style_data_rows(table, data, size=14)
 
 
-def slide_17_challenges(prs):
-    """슬라이드 17: 도전과 과제"""
-    slide = setup_content_slide(prs, "도전과 과제", 17)
+def slide_23_challenges(prs):
+    """슬라이드 23: 도전과 과제"""
+    slide = setup_content_slide(prs, "도전과 과제", 23)
 
     # 4개 영역을 2x2 박스로
     challenges = [
@@ -927,8 +1228,8 @@ def slide_17_challenges(prs):
     set_font(qrun, size=15, color=NAVY, bold=True)
 
 
-def slide_18_conclusion(prs):
-    """슬라이드 18: 결론 및 시사점"""
+def slide_24_conclusion(prs):
+    """슬라이드 24: 결론 및 시사점"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_background(slide, NAVY)
 
@@ -1016,7 +1317,7 @@ def slide_18_conclusion(prs):
     trun2.text = "감사합니다  |  Thank You"
     set_font(trun2, size=30, bold=True, color=WHITE)
 
-    add_slide_number(slide, 18)
+    add_slide_number(slide, 24)
 
 
 # ── 메인 실행 ─────────────────────────────────────────
@@ -1025,7 +1326,7 @@ def main():
     prs.slide_width = SLIDE_WIDTH
     prs.slide_height = SLIDE_HEIGHT
 
-    # 18장 슬라이드 생성
+    # 24장 슬라이드 생성
     slide_01_cover(prs)
     slide_02_toc(prs)
     slide_03_why_hydrogen(prs)
@@ -1041,9 +1342,17 @@ def main():
     slide_13_china_mideast(prs)
     slide_14_korea_policy(prs)
     slide_15_korea_companies(prs)
-    slide_16_key_numbers(prs)
-    slide_17_challenges(prs)
-    slide_18_conclusion(prs)
+    # 연료전지 연구현황 (신규 6장)
+    slide_16_fc_market(prs)
+    slide_17_fc_tech(prs)
+    slide_18_fc_research(prs)
+    slide_19_fc_companies(prs)
+    slide_20_fc_policy_ai(prs)
+    slide_21_fc_assessment(prs)
+    # 마무리
+    slide_22_key_numbers(prs)
+    slide_23_challenges(prs)
+    slide_24_conclusion(prs)
 
     prs.save(OUTPUT_PATH)
     print(f"PPT 생성 완료: {OUTPUT_PATH}")
