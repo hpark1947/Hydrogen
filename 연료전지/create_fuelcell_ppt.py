@@ -1,8 +1,9 @@
 """
 연료전지 발표 PPT 생성 스크립트
-- 22장 슬라이드, 비즈니스 프로페셔널 디자인
+- 25장 슬라이드, 비즈니스 프로페셔널 디자인
 - python-pptx 기반
 - 글로벌 동향, 미국·중국, 한국 현황 및 전망
+- 로드맵 달성률, 부품 국산화/기술격차, 충전소 수익성 위기 추가
 """
 
 from pptx import Presentation
@@ -30,7 +31,7 @@ TABLE_ROW_WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 FONT_NAME = "맑은 고딕"
 SLIDE_WIDTH = Inches(13.333)
 SLIDE_HEIGHT = Inches(7.5)
-TOTAL_SLIDES = 22
+TOTAL_SLIDES = 25
 
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "연료전지_발표자료.pptx")
 
@@ -253,7 +254,7 @@ def slide_02_toc(prs):
         ("Part 2", "미국 연료전지 산업", "정책, 주요 기업, R&D, 응용 분야"),
         ("Part 3", "중국 연료전지 산업", "정책, 주요 기업, 기술 수준, 상용차 중심"),
         ("Part 4", "미국 vs 중국 경쟁 구도", "전략 비교, 강점·약점, 향후 전망"),
-        ("Part 5", "한국의 현주소와 전망", "시장, 기업, R&D, 인프라, 강점·약점, 과제"),
+        ("Part 5", "한국의 현주소와 전망", "시장, 기업, R&D, 인프라, 달성률, 기술격차, 충전소위기"),
     ]
     colors = [NAVY, LIGHT_NAVY, ACCENT_BLUE, ACCENT_ORANGE, GREEN]
 
@@ -593,9 +594,9 @@ def slide_14_korea_market(prs):
 
     # 핵심 지표 박스 4개
     boxes = [
-        ("발전용 연료전지\n1,036MW\n세계 1위", NAVY),
+        ("발전용 연료전지\n1,036MW\n세계 최초 1GW 돌파", NAVY),
         ("수소차 등록\n4만 대 돌파\n넥쏘 점유율 42.9%", LIGHT_NAVY),
-        ("국내 시장 전망\n2030년\n2.5조 원", ACCENT_BLUE),
+        ("5대 그룹 투자\n43.4조 원\n밸류체인 전 단계", ACCENT_BLUE),
         ("건물용 시장\n2030년\n3.86조 원", GREEN),
     ]
     for i, (text, color) in enumerate(boxes):
@@ -630,8 +631,8 @@ def slide_15_korea_policy(prs):
         ["수소경제 활성화 로드맵", "2019.1", "2040년 FCEV 620만대, 충전소 1,200기, 발전 15GW"],
         ["수소법 (세계 최초)", "2020.2", "수소경제 육성 및 수소 안전관리 법률 제정"],
         ["수소경제 이행 기본계획", "2021", "2030 수소 390만톤, 2050 2,790만톤 공급 목표"],
-        ["청정수소 인증제", "2024", "세계 최초 청정수소발전 입찰시장 개설"],
-        ["CHPS (의무화제도)", "2024~", "RPS에서 수소 연료전지 분리, 별도 의무 시장"],
+        ["청정수소 인증제", "2024", "세계 최초 청정수소발전 입찰시장 개설 (낙찰률 11.5%)"],
+        ["CHPS (의무화제도)", "2024~", "RPS에서 분리, 별도 의무시장 | 2025년 입찰 전격 취소"],
         ["전력수급기본계획", "2027~", "연간 200MW(~2030) → 150MW(~2036) → 100MW 증설"],
     ]
     style_data_rows(table, data, size=12)
@@ -651,19 +652,19 @@ def slide_16_korea_companies(prs):
     style_header_row(table, ["기업", "핵심 역할", "주요 실적"])
     data = [
         ["현대자동차", "FCEV (넥쏘, XCIENT), HTWO 시스템",
-         "글로벌 수소차 1위 (42.9%)\n2030년 70만기 판매 목표"],
-        ["두산퓨얼셀", "PAFC + SOFC 발전용 연료전지",
-         "SOFC 양산 개시 (군산 50MW)\n2026 매출 6,530억원"],
+         "넥쏘 2세대 110kW 스택\n2030년 70만기, 3세대 200kW(2027)"],
+        ["두산퓨얼셀", "PAFC M400(440kW) + SOFC",
+         "SOFC 양산(군산 50MW, 620°C)\nPAFC 국산화율 98%"],
         ["블룸SK퓨얼셀", "SOFC 국내 생산 (블룸에너지 JV)",
-         "구미 공장 준공\n데이터센터 330kW 설치"],
-        ["SK E&S", "수소 생산-유통-충전 밸류체인",
-         "액화수소충전소 17개소 운영\n2026년 30개소+ 목표"],
+         "구미 공장 준공, 효율 65%\nDC 330kW 설치(국내 최초)"],
+        ["SK그룹", "수소 생산-유통-충전 밸류체인",
+         "인천 3만톤 액화수소(7,000억원)\n충전소 17개→30개+(2026)"],
         ["효성그룹", "충전시스템 1위 + 탄소섬유 + 액화수소",
-         "린데 합작 세계최대 액화수소 플랜트\n탄소섬유 1조원 투자"],
+         "린데 세계최대 액화수소 1.3만톤\n탄소섬유 1조원(2만4천톤)"],
         ["한화솔루션", "그린수소 (PEM/AEM 수전해)",
-         "평창 연 290톤 그린수소\n2.8조원 투자 계획"],
-        ["범한퓨얼셀", "PEMFC (선박, 잠수함, 충전소)",
-         "군수 방산 기술 보유\n충전소 매출 +207%"],
+         "평창 연 290톤 그린수소\n2.8조원 투자(태양광+수전해)"],
+        ["범한퓨얼셀", "PEMFC (잠수함AIP, 선박, 충전소)",
+         "장보고III 100% 국산화 납품\n2025년 흑자 전환 전망"],
     ]
     style_data_rows(table, data, size=11)
 
@@ -759,12 +760,12 @@ def slide_19_korea_swot(prs):
     tf1 = add_body_textbox(slide, left=Inches(0.6), top=Inches(2.3), width=Inches(5.8), height=Inches(4.2))
     strengths = [
         "발전용 연료전지 세계 1위 (1GW+)",
-        "현대 넥쏘 수소차 판매 세계 1위 (42.9%)",
-        "세계 최초 수소법 제정 (2020)",
-        "세계 최초 청정수소발전 입찰시장 (2024)",
-        "대기업 대규모 투자 (현대·SK·한화·효성·두산)",
-        "KAIST 등 세계적 연구 성과 (Nature 게재)",
+        "넥쏘 수소차 세계 1위 (42.9%), 4만대+",
+        "세계 최초 수소법 + 청정수소 입찰시장",
+        "5대 그룹 43.4조원 대규모 투자",
+        "KAIST 등 세계적 R&D (Nature 게재)",
         "생산-저장-운송-활용 통합 밸류체인",
+        "XCIENT 유럽 165대, 2,000만km 돌파",
         "수소버스 2024년 1,000대+ 신규 보급",
     ]
     for i, s in enumerate(strengths):
@@ -776,22 +777,165 @@ def slide_19_korea_swot(prs):
 
     tf2 = add_body_textbox(slide, left=Inches(6.8), top=Inches(2.3), width=Inches(5.9), height=Inches(4.2))
     weaknesses = [
-        "MEA·촉매·전해질막 핵심 부품 수입 의존",
-        "CHPS 입찰 흥행 실패 (계획의 11.8%)",
+        "전해질막(80%+), 촉매(85%+) 수입 의존",
+        "CHPS 2024 낙찰 11.5%, 2025 입찰 취소",
         "수소 생산의 90%+가 그레이수소",
-        "그린수소 5,200~6,500원/kg 경제성 부족",
-        "충전소 407기, 수소차 4만대 대비 부족",
-        "수전해·수소액화 등 선도국과 7년+ 격차",
-        "SOFC 내구성 (스택 교체주기 짧음)",
-        "수소차 연간 수천 대, 대중화에는 아직 거리",
+        "충전소 대부분 적자(HyNet 4년 166억 손실)",
+        "수소가격 10,239원/kg, 경제성 부족",
+        "수전해·수소액화 선도국 대비 5~7년 격차",
+        "중국 추격 가속(특허 69%, 부품국산화 70%)",
+        "로드맵 달성률: 수소차 23%, 발전 13.5%",
     ]
     for i, w in enumerate(weaknesses):
         add_bullet(tf2, f"  {w}", first=(i == 0), size=14, color=DARK_GRAY, space_after=Pt(4))
 
 
-def slide_20_tech_innovation(prs):
+def slide_20_roadmap_achievement(prs):
+    """로드맵 달성률 분석"""
+    slide = setup_slide(prs, "[한국] 수소경제 로드맵 달성률 분석", 20)
+
+    # 상단 설명
+    tf = add_body_textbox(slide, top=Inches(1.4), height=Inches(0.6))
+    add_bullet(tf, "2019년 로드맵 목표 대비 2025년 현재 실제 달성 현황 — 분야별 상당한 편차 존재",
+               first=True, size=16, bold=True, color=NAVY)
+
+    # 달성률 테이블
+    tbl_shape = slide.shapes.add_table(7, 5, Inches(0.6), Inches(2.1),
+                                       Inches(12.1), Inches(3.8))
+    table = tbl_shape.table
+    table.columns[0].width = Inches(2.2)
+    table.columns[1].width = Inches(2.2)
+    table.columns[2].width = Inches(2.2)
+    table.columns[3].width = Inches(1.5)
+    table.columns[4].width = Inches(4.0)
+
+    style_header_row(table, ["분야", "2022년 목표", "실제 달성", "달성률", "2030년 목표 대비 현황"])
+    data = [
+        ["수소차 보급", "8.1만 대", "~1.9만 대", "23%", "18만 대 목표 → 현재 3.8만 대"],
+        ["수소충전소", "310개소", "~170개소(→407기)", "55%→74%", "660기 목표 → 양호한 진척"],
+        ["발전용 연료전지", "1.5GW", "~1.0GW", "67%", "8GW 목표 → 1.08GW (13.5%)"],
+        ["건물용 연료전지", "50MW", "~13MW", "26%", "에네팜 49만대 대비 현저히 부족"],
+        ["수소 공급량", "47만 톤", "~22만 톤", "47%", "390만 톤 목표 → 그린 전환 시급"],
+        ["수소버스", "-", "2,066대", "-", "2024년 1,000대+ (277% 급증)"],
+    ]
+    style_data_rows(table, data, size=12)
+
+    # 하단: 달성률 평가 박스
+    add_colored_box(slide, Inches(0.6), Inches(6.1), Inches(3.8), Inches(0.7),
+                    GREEN, "양호: 충전소, 수소버스", text_size=14)
+    add_colored_box(slide, Inches(4.6), Inches(6.1), Inches(3.8), Inches(0.7),
+                    ACCENT_ORANGE, "보통: 발전용, 수소공급", text_size=14)
+    add_colored_box(slide, Inches(8.6), Inches(6.1), Inches(4.1), Inches(0.7),
+                    ACCENT_RED, "저조: 수소차(23%), 건물용(26%)", text_size=14)
+
+
+def slide_21_parts_techgap(prs):
+    """부품 국산화 + 기술격차"""
+    slide = setup_slide(prs, "[한국] 핵심부품 국산화율 및 기술격차 분석", 21)
+
+    # 좌측: 부품 국산화율 테이블
+    add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(6.2), Inches(0.6),
+                    NAVY, "PEMFC 핵심부품 국산화 현황", text_size=16)
+
+    tbl1 = slide.shapes.add_table(6, 3, Inches(0.5), Inches(2.1),
+                                  Inches(6.2), Inches(3.3))
+    t1 = tbl1.table
+    t1.columns[0].width = Inches(2.0)
+    t1.columns[1].width = Inches(1.5)
+    t1.columns[2].width = Inches(2.7)
+    style_header_row(t1, ["핵심부품", "국산화율", "해외 의존 / 국내 기업"])
+    data1 = [
+        ["전해질막 (PEM)", "10~20%", "Chemours(Nafion) / 코오롱"],
+        ["촉매 (Pt/C)", "10~15%", "JM, Umicore / 연구단계"],
+        ["MEA (막전극접합체)", "20~30%", "Gore, 3M / FCMT, 코오롱"],
+        ["GDL (가스확산층)", "50~60%", "SGL, Toray / 제이앤티지"],
+        ["분리판 (금속)", "60~70%", "국내 강점 / 케이퓨얼셀"],
+    ]
+    style_data_rows(t1, data1, size=11)
+
+    # 우측: 기술격차 테이블
+    add_colored_box(slide, Inches(7.0), Inches(1.4), Inches(5.7), Inches(0.6),
+                    ACCENT_RED, "선도국 대비 기술격차 (NIGT 평가)", text_size=16)
+
+    tbl2 = slide.shapes.add_table(7, 3, Inches(7.0), Inches(2.1),
+                                  Inches(5.7), Inches(3.3))
+    t2 = tbl2.table
+    t2.columns[0].width = Inches(2.2)
+    t2.columns[1].width = Inches(1.3)
+    t2.columns[2].width = Inches(2.2)
+    style_header_row(t2, ["기술 분야", "격차", "선도국"])
+    data2 = [
+        ["PEMFC 스택", "1~3년", "일본(도요타)"],
+        ["SOFC 발전용", "3~5년", "미국(Bloom)"],
+        ["수전해 (PEM)", "3~5년", "독일, 미국"],
+        ["전해질막", "5~7년", "미국(Chemours)"],
+        ["촉매", "5~7년", "영국(JM)"],
+        ["수소터빈", "10년+", "미국(GE)"],
+    ]
+    style_data_rows(t2, data2, size=11)
+
+    # 하단: 중국 추격 경고
+    tf = add_body_textbox(slide, top=Inches(5.6), height=Inches(1.2))
+    add_bullet(tf, "중국 추격 경고: 연료전지 특허 글로벌 69% 장악 | 부품 국산화 70% (한국 20~30%)",
+               first=True, size=15, bold=True, color=ACCENT_RED)
+    add_bullet(tf, "SynStack GIII 4.5+ kW/L (현대 2.5세대 ~3.5 kW/L) | 비용 연간 33% 하락 추세",
+               size=14, color=DARK_GRAY)
+
+
+def slide_22_charging_crisis(prs):
+    """충전소 수익성 위기"""
+    slide = setup_slide(prs, "[한국] 수소충전소 수익성 위기 분석", 22)
+
+    # 좌측: 수익성 현황 테이블
+    add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(6.2), Inches(0.6),
+                    ACCENT_RED, "충전소 수익성 현황 — 구조적 적자", text_size=16)
+
+    tbl_shape = slide.shapes.add_table(7, 2, Inches(0.5), Inches(2.1),
+                                       Inches(6.2), Inches(3.5))
+    table = tbl_shape.table
+    table.columns[0].width = Inches(3.2)
+    table.columns[1].width = Inches(3.0)
+    style_header_row(table, ["항목", "현황"])
+    data = [
+        ["충전소 1기 설치비", "30~50억 원"],
+        ["가동률", "20~25% (손익분기 미달)"],
+        ["하루 평균 충전", "4대에 불과"],
+        ["흑자 충전소 수", "전국 약 7곳"],
+        ["수소 판매가 (2025.7)", "10,239원/kg"],
+        ["정부 지원 (152곳)", "연 82억원 (충전소당 5,400만원)"],
+    ]
+    style_data_rows(table, data, size=12)
+
+    # 우측: HyNet 적자 추이
+    add_colored_box(slide, Inches(7.0), Inches(1.4), Inches(5.7), Inches(0.6),
+                    NAVY, "HyNet(한국수소충전소) 적자 추이", text_size=16)
+
+    tbl2 = slide.shapes.add_table(6, 2, Inches(7.0), Inches(2.1),
+                                  Inches(5.7), Inches(3.0))
+    t2 = tbl2.table
+    t2.columns[0].width = Inches(2.5)
+    t2.columns[1].width = Inches(3.2)
+    style_header_row(t2, ["연도", "적자액"])
+    data2 = [
+        ["2019년", "11억 4,000만 원"],
+        ["2020년", "22억 5,800만 원"],
+        ["2021년", "58억 8,200만 원"],
+        ["2022년", "84억 5,000만 원"],
+        ["4년 누적", "166억 원 (639% 급증)"],
+    ]
+    style_data_rows(t2, data2, size=12)
+
+    # 하단: 원인 + 수소가격 추이
+    tf = add_body_textbox(slide, top=Inches(5.8), height=Inches(1.2))
+    add_bullet(tf, "적자 원인: 수소차 4만대 대비 407기 충전소 → 충전소당 100대, 일 4대 충전",
+               first=True, size=14, bold=True, color=DARK_GRAY)
+    add_bullet(tf, "수소 가격: 8,000원(2021) → 9,000원(2023, 러-우전쟁) → 10,000원+(2024) — 경유보다 비쌈",
+               size=14, color=ACCENT_RED)
+
+
+def slide_23_tech_innovation(prs):
     """기술 혁신 트렌드"""
-    slide = setup_slide(prs, "최근 기술 혁신 및 비용 절감 트렌드", 20)
+    slide = setup_slide(prs, "최근 기술 혁신 및 비용 절감 트렌드", 23)
 
     # 상단: 촉매 혁신
     tf = add_body_textbox(slide, top=Inches(1.5), height=Inches(2.0))
@@ -825,9 +969,9 @@ def slide_20_tech_innovation(prs):
                     text_size=14, bold=False)
 
 
-def slide_21_korea_global(prs):
+def slide_24_korea_global(prs):
     """한국 글로벌 위상"""
-    slide = setup_slide(prs, "[한국] 글로벌 시장에서의 위상", 21)
+    slide = setup_slide(prs, "[한국] 글로벌 시장에서의 위상", 24)
 
     tbl_shape = slide.shapes.add_table(8, 3, Inches(0.6), Inches(1.5),
                                        Inches(12.1), Inches(4.2))
@@ -854,7 +998,7 @@ def slide_21_korea_global(prs):
                first=True, size=15, bold=True, color=NAVY)
 
 
-def slide_22_conclusion(prs):
+def slide_25_conclusion(prs):
     """결론 및 전망"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_background(slide, NAVY)
@@ -957,9 +1101,12 @@ def main():
     slide_17_korea_rd(prs)
     slide_18_korea_infra(prs)
     slide_19_korea_swot(prs)
-    slide_20_tech_innovation(prs)
-    slide_21_korea_global(prs)
-    slide_22_conclusion(prs)
+    slide_20_roadmap_achievement(prs)
+    slide_21_parts_techgap(prs)
+    slide_22_charging_crisis(prs)
+    slide_23_tech_innovation(prs)
+    slide_24_korea_global(prs)
+    slide_25_conclusion(prs)
 
     prs.save(OUTPUT_PATH)
     print(f"PPT 생성 완료: {OUTPUT_PATH}")
