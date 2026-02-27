@@ -58,6 +58,23 @@ cd 연료전지 && python create_fuelcell_ppt.py
 - `.py` 스크립트만 커밋하고 관련 `.md` 파일을 빠뜨리는 실수를 하지 않는다.
 - 커밋 전 체크리스트: `git status`에서 modified/untracked `.md` 파일이 모두 staged 되었는지 확인 → 빠진 것이 있으면 추가 → 커밋
 
+## GitHub 한국어 파일명 렌더링 문제 대응
+
+GitHub 웹 UI에서 한국어 폴더/파일명이 `"\354\210\230\354\206\214..."` 같은 8진수 이스케이프 코드로 표시되는 경우가 있다. Git 데이터 자체는 정상(UTF-8)이며, clone하면 한국어가 올바르게 나온다. GitHub 트리 렌더링 캐시 문제이다.
+
+**해결 방법**: 한국어 이름을 가진 폴더 내 파일에 작은 변경을 커밋 & push하여 새로운 트리 SHA를 생성하면 GitHub가 트리를 다시 파싱하면서 정상 렌더링된다.
+
+```bash
+# 1. 한국어 폴더 내 파일에 사소한 변경 추가
+echo "" >> "수소에너지/아무파일.md"
+echo "" >> "연료전지/아무파일.md"
+# 2. 커밋 & push
+git add -A && git commit -m "chore: GitHub 트리 인덱스 갱신" && git push
+# 3. GitHub 웹에서 파일명 정상 표시 확인
+```
+
+**사전 예방**: `git config --global core.quotepath false` 설정이 되어 있는지 확인한다 (현재 설정됨).
+
 ## 작업 시 유의사항
 
 - 폰트는 `맑은 고딕`(Malgun Gothic) 통일
