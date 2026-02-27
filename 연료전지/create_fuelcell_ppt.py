@@ -1,9 +1,10 @@
 """
 연료전지 발표 PPT 생성 스크립트
-- 25장 슬라이드, 비즈니스 프로페셔널 디자인
+- 27장 슬라이드, 비즈니스 프로페셔널 디자인
 - python-pptx 기반
 - 글로벌 동향, 미국·중국, 한국 현황 및 전망
 - 로드맵 달성률, 부품 국산화/기술격차, 충전소 수익성 위기 추가
+- FCEV vs BEV 효율 비교, 지정학적 리스크 슬라이드 추가
 """
 
 from pptx import Presentation
@@ -31,7 +32,7 @@ TABLE_ROW_WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 FONT_NAME = "맑은 고딕"
 SLIDE_WIDTH = Inches(13.333)
 SLIDE_HEIGHT = Inches(7.5)
-TOTAL_SLIDES = 25
+TOTAL_SLIDES = 27
 
 OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "연료전지_발표자료.pptx")
 
@@ -251,9 +252,9 @@ def slide_02_toc(prs):
     slide = setup_slide(prs, "목차 (Table of Contents)", 2)
     sections = [
         ("Part 1", "글로벌 연료전지 시장 동향", "시장 규모, 유형별 동향, 응용 분야, 주요국 정책"),
-        ("Part 2", "미국 연료전지 산업", "정책, 주요 기업, R&D, 응용 분야"),
+        ("Part 2", "미국 연료전지 산업", "정책, DOE 컨소시엄, 주요 기업, 응용 분야"),
         ("Part 3", "중국 연료전지 산업", "정책, 주요 기업, 기술 수준, 상용차 중심"),
-        ("Part 4", "미국 vs 중국 경쟁 구도", "전략 비교, 강점·약점, 향후 전망"),
+        ("Part 4", "미·중 경쟁, FCEV vs BEV, 지정학", "전략 비교, 효율 비교, 수소 무역, 공급망 리스크"),
         ("Part 5", "한국의 현주소와 전망", "시장, 기업, R&D, 인프라, 달성률, 기술격차, 충전소위기"),
     ]
     colors = [NAVY, LIGHT_NAVY, ACCENT_BLUE, ACCENT_ORANGE, GREEN]
@@ -373,7 +374,7 @@ def slide_05_applications(prs):
 
 
 def slide_06_global_policy(prs):
-    """주요국 정책"""
+    """주요국 정책 — 데이터 업데이트"""
     slide = setup_slide(prs, "세계 주요국 수소/연료전지 정책 현황", 6)
 
     tbl_shape = slide.shapes.add_table(6, 3, Inches(0.6), Inches(1.5),
@@ -388,37 +389,41 @@ def slide_06_global_policy(prs):
         ["미국", "Hydrogen Shot + IRA",
          "2031년까지 $1/kg 목표 | H2Hubs 70억$ (일부 삭감) | 45V 세액공제"],
         ["EU", "EU 수소전략 + REPowerEU",
-         "2030년 재생수소 2,000만톤 | 전해조 40GW | 1.845억 유로 공모"],
+         "목표 40GW 전해조 vs 실적 385MW(1%) | 190억€ 파이프라인 | 1.845억€ 공모"],
         ["일본", "수소기본전략 (2023 개정)",
-         "관민 15조 엔(1,000억$) | 에네팜 50만대+ | 세계 최초 수소전략(2017)"],
+         "관민 15조 엔(1,000억$) | 에네팜 49만대 | Toyota 3세대 스택 5.4kW/L, 내구성 2배"],
         ["한국", "수소경제 로드맵 + 수소법",
          "세계 최초 수소법(2020) | 2040년 FCEV 620만대 | 발전용 15GW"],
         ["중국", "수소 중장기 계획 (2021-2035)",
-         "2025년 FCV 5만대 목표 | 에너지법에 수소 포함 | 24개 성시 33건 정책"],
+         "2025 FCV 5만대 | 2030 FCV 100만대 | 수전해 글로벌 60% | 에너지법 수소 포함"],
     ]
     style_data_rows(table, data, size=13)
 
 
 def slide_07_us_policy(prs):
-    """미국 연료전지 정책"""
+    """미국 연료전지 정책 — DOE 컨소시엄 추가"""
     slide = setup_slide(prs, "[미국] 수소/연료전지 정책 상세", 7)
     tf = add_body_textbox(slide, top=Inches(1.5))
 
-    add_bullet(tf, "국가 청정 수소 전략 및 로드맵 (2023)", first=True, size=18, bold=True, color=NAVY)
-    add_bullet(tf, "2030년까지 연간 수소 생산 1,000만 톤 목표 (현재 7~9 MMTpa 전망)", level=1, size=15)
+    add_bullet(tf, "국가 청정 수소 전략 및 로드맵 (2023)", first=True, size=17, bold=True, color=NAVY)
+    add_bullet(tf, "2030년까지 연간 수소 생산 1,000만 톤 목표 (EIA 전망: 2030 7~9 MMTpa)", level=1, size=14)
 
-    add_bullet(tf, "인플레이션 감축법(IRA) - Section 45V", size=18, bold=True, color=NAVY)
-    add_bullet(tf, "수소 1kg당 최대 $3 세액공제 | 트럼프 행정부 하 공제기간 10년→2년 단축", level=1, size=15)
+    add_bullet(tf, "인플레이션 감축법(IRA) - Section 45V", size=17, bold=True, color=NAVY)
+    add_bullet(tf, "수소 1kg당 최대 $3 세액공제 | 트럼프 행정부 하 공제기간 10년→2년 단축", level=1, size=14)
 
-    add_bullet(tf, "지역 청정 수소 허브 (H2Hubs)", size=18, bold=True, color=NAVY)
-    add_bullet(tf, "7개 허브에 70억 달러 투자 → 트럼프 행정부, 서부 2개 허브 22억$ 취소", level=1, size=15)
-    add_bullet(tf, "캘리포니아 ARCHES 12억$ 취소, 태평양 북서부 10억$ 삭감", level=1, size=15)
+    add_bullet(tf, "지역 청정 수소 허브 (H2Hubs)", size=17, bold=True, color=NAVY)
+    add_bullet(tf, "7개 허브에 70억$ 투자 → 트럼프 행정부, 서부 2개 허브 22억$ 취소", level=1, size=14)
+    add_bullet(tf, "캘리포니아 ARCHES 12억$ 취소, 태평양 북서부 10억$ 삭감", level=1, size=14)
 
-    add_bullet(tf, "Hydrogen Shot (DOE)", size=18, bold=True, color=NAVY)
-    add_bullet(tf, "2031년까지 청정수소 비용 80% 절감, $1/kg 달성 목표", level=1, size=15)
-    add_bullet(tf, "PEM 전해조 자본비용 80% 절감(2005~), 연료전지 시스템 70% 절감(2008~)", level=1, size=15)
+    add_bullet(tf, "DOE 3대 R&D 컨소시엄", size=17, bold=True, color=NAVY)
+    add_bullet(tf, "M2FCT ($50M): 대형트럭 FC 내구성 25,000시간(100만 마일) 목표, 30개+ 기관 참여", level=1, size=14)
+    add_bullet(tf, "R2R ($50M, 2024 신규): Roll-to-Roll 대량생산, 분당 10m, 비용 75% 절감", level=1, size=14)
+    add_bullet(tf, "H2NEW ($100M): 차세대 전해조 개발, 그린수소 비용 절감 중점", level=1, size=14)
 
-    add_bullet(tf, "정책 리스크: 행정부 교체에 따른 불확실성이 투자 저해 요인", size=16, bold=True,
+    add_bullet(tf, "Hydrogen Shot: 2031년 $1/kg 목표 | PEM 전해조 자본비용 80% 절감(2005~)", size=14,
+               color=MEDIUM_GRAY)
+
+    add_bullet(tf, "정책 리스크: 행정부 교체에 따른 불확실성이 투자 저해 요인", size=15, bold=True,
                color=ACCENT_RED)
 
 
@@ -476,37 +481,40 @@ def slide_09_us_applications(prs):
 
 
 def slide_10_china_market(prs):
-    """중국 시장"""
+    """중국 시장 — 데이터 확대"""
     slide = setup_slide(prs, "[중국] 연료전지 시장 현황", 10)
 
     # 좌측: 핵심 지표 표
-    tbl_shape = slide.shapes.add_table(5, 3, Inches(0.6), Inches(1.5),
-                                       Inches(7.0), Inches(2.8))
+    tbl_shape = slide.shapes.add_table(6, 3, Inches(0.6), Inches(1.5),
+                                       Inches(7.0), Inches(3.2))
     table = tbl_shape.table
     table.columns[0].width = Inches(2.8)
     table.columns[1].width = Inches(2.0)
     table.columns[2].width = Inches(2.2)
     style_header_row(table, ["항목", "목표", "실적/달성률"])
     data = [
-        ["연료전지차(FCV)", "50,000대", "~30,000대 (60%)"],
+        ["연료전지차(FCV)", "50,000대(2025)", "~30,000대 (60%)"],
+        ["FCV 장기 목표", "1,000,000대(2030)", "학습률 14%"],
         ["수소충전소", "1,200개소", "~540개소 (45%)"],
-        ["그린수소 생산", "10~20만 톤/년", "진행 중"],
         ["핵심 부품 국산화율", "-", "70% 달성"],
+        ["수전해 글로벌 점유율", "-", "60% (서방 1/3 가격)"],
     ]
     style_data_rows(table, data)
 
     # 우측: 핵심 포인트 박스
-    add_colored_box(slide, Inches(8.2), Inches(1.5), Inches(4.5), Inches(1.2),
-                    NAVY, "시장 규모\n2023년 15.4억$ → 2026년 35.5억$", text_size=15)
-    add_colored_box(slide, Inches(8.2), Inches(2.9), Inches(4.5), Inches(1.2),
-                    GREEN, "국산 스택\n수입품 대비 60% 저렴", text_size=15)
+    add_colored_box(slide, Inches(8.2), Inches(1.5), Inches(4.5), Inches(1.0),
+                    NAVY, "시장 규모\n2023년 15.4억$ → 2026년 35.5억$", text_size=14)
+    add_colored_box(slide, Inches(8.2), Inches(2.7), Inches(4.5), Inches(1.0),
+                    GREEN, "스택 비용 하락\n8,000→1,400위안/kW (2020→2030)", text_size=14)
+    add_colored_box(slide, Inches(8.2), Inches(3.9), Inches(4.5), Inches(1.0),
+                    ACCENT_ORANGE, "4대 핵심기업 62% 점유\nSinoHytec·Refire·SinoSynergy·Weichai", text_size=12)
 
     # 하단: 정책 요약
-    tf = add_body_textbox(slide, top=Inches(4.6), height=Inches(2.0))
-    add_bullet(tf, "중국 수소 에너지 중장기 계획 (2021~2035) — NDRC 발표", first=True, size=17, bold=True, color=NAVY)
-    add_bullet(tf, "3단계 로드맵: 1단계(~2025) 프레임워크 → 2단계(~2030) 혁신 시스템 → 3단계(~2035) 다양한 생태계", level=1, size=14)
-    add_bullet(tf, "2024.11: 24개 성/시에서 33개 신규 수소정책 | 2025.4: 에너지법에 수소 포함", level=1, size=14)
-    add_bullet(tf, "2025년 재무부 FCV 보조금: 3.21억$ | 5개 시범 도시 클러스터 운영", level=1, size=14)
+    tf = add_body_textbox(slide, top=Inches(5.2), height=Inches(1.6))
+    add_bullet(tf, "중국 수소 에너지 중장기 계획 (2021~2035) — NDRC 발표", first=True, size=16, bold=True, color=NAVY)
+    add_bullet(tf, "3단계 로드맵: 1단계(~2025) 프레임워크 → 2단계(~2030) 혁신 시스템 → 3단계(~2035) 다양한 생태계", level=1, size=13)
+    add_bullet(tf, "2024.11: 24개 성/시에서 33개 신규 수소정책 | 2025.4: 에너지법에 수소 포함", level=1, size=13)
+    add_bullet(tf, "2025년 재무부 FCV 보조금: 3.21억$ | 5개 시범 도시 클러스터 운영", level=1, size=13)
 
 
 def slide_11_china_companies(prs):
@@ -565,11 +573,11 @@ def slide_12_china_applications(prs):
 
 
 def slide_13_us_vs_china(prs):
-    """미중 비교"""
+    """미중 비교 — 10행으로 확장"""
     slide = setup_slide(prs, "미국 vs 중국 연료전지 경쟁 구도", 13)
 
-    tbl_shape = slide.shapes.add_table(8, 3, Inches(0.6), Inches(1.5),
-                                       Inches(12.1), Inches(5.2))
+    tbl_shape = slide.shapes.add_table(11, 3, Inches(0.6), Inches(1.5),
+                                       Inches(12.1), Inches(5.5))
     table = tbl_shape.table
     table.columns[0].width = Inches(2.5)
     table.columns[1].width = Inches(4.8)
@@ -579,18 +587,126 @@ def slide_13_us_vs_china(prs):
     data = [
         ["전략 방향", "원천기술 + 고부가가치\n(데이터센터, 군사)", "대규모 보급 + 비용절감\n(상용차 중심)"],
         ["수소충전소", "~51개 (95% 캘리포니아)", "~540개 (세계 최다)"],
-        ["FCV 보유", "소규모 (캘리포니아 중심)", "~30,000대"],
+        ["FCV 보유", "소규모 (캘리포니아 중심)", "~30,000대 (2030년 100만대 목표)"],
         ["핵심 기술력", "SOFC/PEMFC 원천기술\n촉매/MEA 선도", "핵심부품 국산화 70%\n비용 절감 우위"],
         ["대표 기업", "Bloom Energy, Plug Power", "SinoHytec, Refire, Weichai"],
         ["주요 강점", "원천기술, 군사, AI DC", "대규모 보급, 인프라, 정책 일관성"],
         ["주요 약점", "인프라 부족, 정책 불확실성", "기술 내구성, 핵심소재 수입"],
+        ["기술격차 수렴", "SOFC·촉매: 5년+ 선도\n전해조: 3~5년 선도", "스택: 2~3년 추격\n수전해: 60% 장악"],
+        ["일본·한국·EU", "동맹 기반 기술 공유\nNATO 군사 협력", "일대일로 수소 인프라\n개도국 기술 수출"],
+        ["지정학 영향", "45V 세액공제 불확실성\nH2Hubs 삭감 리스크", "IRA 대응 보조금 확대\n내수 시장 자체 성장"],
     ]
-    style_data_rows(table, data, size=12)
+    style_data_rows(table, data, size=11)
 
 
-def slide_14_korea_market(prs):
+def slide_14_fcev_vs_bev(prs):
+    """[신규] FCEV vs BEV 효율 비교"""
+    slide = setup_slide(prs, "FCEV vs BEV: 효율 비교 및 시장 전망", 14)
+
+    # 상단: Well-to-Wheel 효율 비교 테이블
+    add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(7.5), Inches(0.6),
+                    NAVY, "Well-to-Wheel 에너지 효율 비교", text_size=16)
+
+    tbl1 = slide.shapes.add_table(6, 3, Inches(0.5), Inches(2.1),
+                                  Inches(7.5), Inches(2.8))
+    t1 = tbl1.table
+    t1.columns[0].width = Inches(2.5)
+    t1.columns[1].width = Inches(2.5)
+    t1.columns[2].width = Inches(2.5)
+    style_header_row(t1, ["비교 항목", "FCEV (수소)", "BEV (배터리)"])
+    data1 = [
+        ["에너지 변환 효율", "25~35% (W-t-W)", "70~90% (W-t-W)"],
+        ["1회 충전 주행거리", "500~720km+", "300~600km"],
+        ["충전 시간", "3~5분", "급속 20~40분"],
+        ["km당 비용", "약 100~120원", "약 40~60원"],
+        ["대형 상용차 TCO", "2030년 BEV와 동등 전망", "장거리(500km+) 한계"],
+    ]
+    style_data_rows(t1, data1, size=12)
+
+    # 우측: 2030 시장 전망 박스
+    add_colored_box(slide, Inches(8.5), Inches(1.4), Inches(4.2), Inches(1.5),
+                    ACCENT_RED,
+                    "2030 시장 전망\n\n"
+                    "BEV: 신차의 42~58%\n"
+                    "FCEV: 신차의 0.22%",
+                    text_size=14, bold=False)
+    add_colored_box(slide, Inches(8.5), Inches(3.1), Inches(4.2), Inches(1.8),
+                    GREEN,
+                    "FCEV 경쟁력 영역\n\n"
+                    "대형 트럭 (500km+/일)\n"
+                    "수소 버스·선박·항공\n"
+                    "McKinsey: 상용차 15~25%",
+                    text_size=14, bold=False)
+
+    # 하단: 전략적 시사점
+    tf = add_body_textbox(slide, top=Inches(5.3), height=Inches(1.5))
+    add_bullet(tf, "승용차 시장: BEV 압도적 주도 (IEA NZE: EV의 95%+ = BEV)",
+               first=True, size=15, bold=True, color=DARK_GRAY)
+    add_bullet(tf, "FCEV 전략적 포지셔닝: BEV 대안이 아닌, BEV 진입 어려운 대형·장거리·고사이클 영역의 보완 기술",
+               size=15, bold=True, color=NAVY)
+    add_bullet(tf, "IRENA: 2050년 장거리 수송의 30%가 수소 기반 | 한국은 XCIENT 트럭으로 선점 우위 확보",
+               size=14, color=MEDIUM_GRAY)
+
+
+def slide_15_geopolitical_hydrogen(prs):
+    """[신규] 지정학적 리스크와 수소 무역"""
+    slide = setup_slide(prs, "지정학적 리스크와 글로벌 수소 무역", 15)
+
+    # 좌측: 수소 수출국 TOP5
+    add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(6.2), Inches(0.6),
+                    NAVY, "수소 수출 잠재국 TOP 5 (2050년 전망)", text_size=15)
+
+    tbl1 = slide.shapes.add_table(6, 3, Inches(0.5), Inches(2.1),
+                                  Inches(6.2), Inches(2.5))
+    t1 = tbl1.table
+    t1.columns[0].width = Inches(1.5)
+    t1.columns[1].width = Inches(2.0)
+    t1.columns[2].width = Inches(2.7)
+    style_header_row(t1, ["국가", "잠재 수출량", "핵심 우위"])
+    data1 = [
+        ["호주", "500만 톤+/년", "태양광·풍력, 대규모 토지"],
+        ["사우디·UAE·오만", "400만 톤+/년", "초저가 태양광, 석유 인프라"],
+        ["칠레", "250만 톤+/년", "세계 최고 일사량"],
+        ["나미비아·모로코", "200만 톤+/년", "풍력+태양광, 유럽 인접"],
+        ["노르웨이", "100만 톤+/년", "수력·풍력, 유럽 파이프라인"],
+    ]
+    style_data_rows(t1, data1, size=12)
+
+    # 우측: 운송 형태별 비용
+    add_colored_box(slide, Inches(7.0), Inches(1.4), Inches(5.7), Inches(0.6),
+                    ACCENT_ORANGE, "수소 해상운송 형태별 비용", text_size=15)
+
+    tbl2 = slide.shapes.add_table(5, 3, Inches(7.0), Inches(2.1),
+                                  Inches(5.7), Inches(2.5))
+    t2 = tbl2.table
+    t2.columns[0].width = Inches(1.8)
+    t2.columns[1].width = Inches(1.7)
+    t2.columns[2].width = Inches(2.2)
+    style_header_row(t2, ["운송 형태", "비용 ($/kg)", "비고"])
+    data2 = [
+        ["암모니아 (NH₃)", "$1~2", "무역의 ~85% 전망"],
+        ["액화수소 (LH₂)", "$2~4", "-253°C, 30~40% 손실"],
+        ["LOHC", "$2~5", "독일-한국 실증 중"],
+        ["파이프라인", "$0.5~1.5", "유럽 내 핵심 수단"],
+    ]
+    style_data_rows(t2, data2, size=12)
+
+    # 하단: 공급망 리스크
+    add_colored_box(slide, Inches(0.5), Inches(4.9), Inches(12.2), Inches(0.6),
+                    ACCENT_RED, "핵심 공급망 리스크", text_size=16)
+
+    tf = add_body_textbox(slide, top=Inches(5.6), height=Inches(1.3))
+    add_bullet(tf, "FID 전환율 극저: 발표 프로젝트 중 최종투자결정 통과율 4%에 불과 (IEA 경고)",
+               first=True, size=14, bold=True, color=ACCENT_RED)
+    add_bullet(tf, "백금·이리듐 집중: PEM 전해조·연료전지 핵심 촉매가 남아공 70%+ 집중",
+               size=14, color=DARK_GRAY)
+    add_bullet(tf, "중국 전해조 지배: 알칼라인 전해조 글로벌 생산의 60% 장악 | 수요-공급 미스매치 심화",
+               size=14, color=DARK_GRAY)
+
+
+def slide_16_korea_market(prs):
     """한국 시장 현황"""
-    slide = setup_slide(prs, "[한국] 연료전지 시장 현황", 14)
+    slide = setup_slide(prs, "[한국] 연료전지 시장 현황", 16)
 
     # 핵심 지표 박스 4개
     boxes = [
@@ -615,9 +731,9 @@ def slide_14_korea_market(prs):
     add_bullet(tf, "2024년 1,000대+ 신규 보급 (전년 대비 277% 급증) | 2025년 목표 2,000대", level=1, size=15)
 
 
-def slide_15_korea_policy(prs):
+def slide_17_korea_policy(prs):
     """한국 정책"""
-    slide = setup_slide(prs, "[한국] 수소경제 정책 체계", 15)
+    slide = setup_slide(prs, "[한국] 수소경제 정책 체계", 17)
 
     tbl_shape = slide.shapes.add_table(7, 3, Inches(0.6), Inches(1.5),
                                        Inches(12.1), Inches(5.2))
@@ -638,9 +754,9 @@ def slide_15_korea_policy(prs):
     style_data_rows(table, data, size=12)
 
 
-def slide_16_korea_companies(prs):
+def slide_18_korea_companies(prs):
     """한국 주요 기업"""
-    slide = setup_slide(prs, "[한국] 주요 연료전지 기업 생태계", 16)
+    slide = setup_slide(prs, "[한국] 주요 연료전지 기업 생태계", 18)
 
     tbl_shape = slide.shapes.add_table(8, 3, Inches(0.6), Inches(1.5),
                                        Inches(12.1), Inches(5.2))
@@ -669,12 +785,12 @@ def slide_16_korea_companies(prs):
     style_data_rows(table, data, size=11)
 
 
-def slide_17_korea_rd(prs):
-    """한국 R&D"""
-    slide = setup_slide(prs, "[한국] 연료전지 R&D 핵심 성과", 17)
+def slide_19_korea_rd(prs):
+    """한국 R&D — 예산 감소 경고 추가"""
+    slide = setup_slide(prs, "[한국] 연료전지 R&D 핵심 성과", 19)
 
     tbl_shape = slide.shapes.add_table(7, 4, Inches(0.6), Inches(1.5),
-                                       Inches(12.1), Inches(4.0))
+                                       Inches(12.1), Inches(3.5))
     table = tbl_shape.table
     table.columns[0].width = Inches(2.0)
     table.columns[1].width = Inches(5.0)
@@ -698,16 +814,21 @@ def slide_17_korea_rd(prs):
     ]
     style_data_rows(table, data, size=12)
 
+    # R&D 예산 감소 경고
+    tf = add_body_textbox(slide, top=Inches(5.2), height=Inches(0.7))
+    add_bullet(tf, "정부 수소 R&D 예산 2년 연속 감소: 3,339→2,611억원 (▼21.8%) | GDP 대비 한국 0.01% vs 일본 0.04% vs 독일 0.03%",
+               first=True, size=14, bold=True, color=ACCENT_RED)
+
     # 하단 특허 정보
-    tf = add_body_textbox(slide, top=Inches(5.8), height=Inches(0.8))
-    add_bullet(tf, "특허: 수전해 기술 — 중국 30% > 독일 20% > 일본 18% > 미국 11% > 한국 10% (5위)",
+    tf2 = add_body_textbox(slide, top=Inches(6.0), height=Inches(0.8))
+    add_bullet(tf2, "특허: 수전해 기술 — 중국 30% > 독일 20% > 일본 18% > 미국 11% > 한국 10% (5위)",
                first=True, size=14, color=MEDIUM_GRAY)
-    add_bullet(tf, "한국 PCT 국제특허출원 세계 4위 (5년 연속)", size=14, color=MEDIUM_GRAY)
+    add_bullet(tf2, "한국 PCT 국제특허출원 세계 4위 (5년 연속)", size=14, color=MEDIUM_GRAY)
 
 
-def slide_18_korea_infra(prs):
+def slide_20_korea_infra(prs):
     """한국 인프라"""
-    slide = setup_slide(prs, "[한국] 수소 인프라 현황", 18)
+    slide = setup_slide(prs, "[한국] 수소 인프라 현황", 20)
 
     # 좌측: 충전소
     add_colored_box(slide, Inches(0.6), Inches(1.5), Inches(5.8), Inches(0.7),
@@ -749,9 +870,9 @@ def slide_18_korea_infra(prs):
                first=True, size=14, color=MEDIUM_GRAY)
 
 
-def slide_19_korea_swot(prs):
+def slide_21_korea_swot(prs):
     """한국 강점 약점"""
-    slide = setup_slide(prs, "[한국] 연료전지 분야 강점과 약점", 19)
+    slide = setup_slide(prs, "[한국] 연료전지 분야 강점과 약점", 21)
 
     # 강점 (좌측)
     add_colored_box(slide, Inches(0.6), Inches(1.5), Inches(5.8), Inches(0.7),
@@ -790,9 +911,9 @@ def slide_19_korea_swot(prs):
         add_bullet(tf2, f"  {w}", first=(i == 0), size=14, color=DARK_GRAY, space_after=Pt(4))
 
 
-def slide_20_roadmap_achievement(prs):
+def slide_22_roadmap_achievement(prs):
     """로드맵 달성률 분석"""
-    slide = setup_slide(prs, "[한국] 수소경제 로드맵 달성률 분석", 20)
+    slide = setup_slide(prs, "[한국] 수소경제 로드맵 달성률 분석", 22)
 
     # 상단 설명
     tf = add_body_textbox(slide, top=Inches(1.4), height=Inches(0.6))
@@ -829,9 +950,9 @@ def slide_20_roadmap_achievement(prs):
                     ACCENT_RED, "저조: 수소차(23%), 건물용(26%)", text_size=14)
 
 
-def slide_21_parts_techgap(prs):
-    """부품 국산화 + 기술격차"""
-    slide = setup_slide(prs, "[한국] 핵심부품 국산화율 및 기술격차 분석", 21)
+def slide_23_parts_techgap(prs):
+    """부품 국산화 + 기술격차 — 코오롱-Ballard MOU 추가"""
+    slide = setup_slide(prs, "[한국] 핵심부품 국산화율 및 기술격차 분석", 23)
 
     # 좌측: 부품 국산화율 테이블
     add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(6.2), Inches(0.6),
@@ -845,7 +966,7 @@ def slide_21_parts_techgap(prs):
     t1.columns[2].width = Inches(2.7)
     style_header_row(t1, ["핵심부품", "국산화율", "해외 의존 / 국내 기업"])
     data1 = [
-        ["전해질막 (PEM)", "10~20%", "Chemours(Nafion) / 코오롱"],
+        ["전해질막 (PEM)", "10~20%", "Chemours(Nafion) / 코오롱\nBallard MOU(2025.12), PFAS-free 개발"],
         ["촉매 (Pt/C)", "10~15%", "JM, Umicore / 연구단계"],
         ["MEA (막전극접합체)", "20~30%", "Gore, 3M / FCMT, 코오롱"],
         ["GDL (가스확산층)", "50~60%", "SGL, Toray / 제이앤티지"],
@@ -874,17 +995,17 @@ def slide_21_parts_techgap(prs):
     ]
     style_data_rows(t2, data2, size=11)
 
-    # 하단: 중국 추격 경고
+    # 하단: 중국 추격 경고 + 코오롱 성과
     tf = add_body_textbox(slide, top=Inches(5.6), height=Inches(1.2))
     add_bullet(tf, "중국 추격 경고: 연료전지 특허 글로벌 69% 장악 | 부품 국산화 70% (한국 20~30%)",
-               first=True, size=15, bold=True, color=ACCENT_RED)
-    add_bullet(tf, "SynStack GIII 4.5+ kW/L (현대 2.5세대 ~3.5 kW/L) | 비용 연간 33% 하락 추세",
-               size=14, color=DARK_GRAY)
+               first=True, size=14, bold=True, color=ACCENT_RED)
+    add_bullet(tf, "코오롱-Ballard MOU(2025.12): 글로벌 선도기업이 한국 PEM 소재 파트너 인정 | PFAS-free 탄화수소계 개발 추진",
+               size=14, color=NAVY)
 
 
-def slide_22_charging_crisis(prs):
+def slide_24_charging_crisis(prs):
     """충전소 수익성 위기"""
-    slide = setup_slide(prs, "[한국] 수소충전소 수익성 위기 분석", 22)
+    slide = setup_slide(prs, "[한국] 수소충전소 수익성 위기 분석", 24)
 
     # 좌측: 수익성 현황 테이블
     add_colored_box(slide, Inches(0.5), Inches(1.4), Inches(6.2), Inches(0.6),
@@ -933,20 +1054,21 @@ def slide_22_charging_crisis(prs):
                size=14, color=ACCENT_RED)
 
 
-def slide_23_tech_innovation(prs):
-    """기술 혁신 트렌드"""
-    slide = setup_slide(prs, "최근 기술 혁신 및 비용 절감 트렌드", 23)
+def slide_25_tech_innovation(prs):
+    """기술 혁신 트렌드 — 비용 테이블 확장 + W2W 효율"""
+    slide = setup_slide(prs, "최근 기술 혁신 및 비용 절감 트렌드", 25)
 
     # 상단: 촉매 혁신
-    tf = add_body_textbox(slide, top=Inches(1.5), height=Inches(2.0))
-    add_bullet(tf, "촉매 기술 혁신 — 백금 의존도 탈피", first=True, size=18, bold=True, color=NAVY)
-    add_bullet(tf, "1990년대 대비 kW당 백금 사용량 90% 감소 | DOE 목표: 0.10 g/kW 미만", level=1, size=15)
-    add_bullet(tf, "PGM-free 촉매: Fe-N-C 0.85 W/cm² | 코발트 기반 4배 내구성 | Fe-Cu 302 mW/cm²", level=1, size=15)
-    add_bullet(tf, "워싱턴대 (2026.2): CVD 기법으로 철 촉매 내구성 획기적 개선", level=1, size=15)
+    tf = add_body_textbox(slide, top=Inches(1.5), height=Inches(1.8))
+    add_bullet(tf, "촉매 기술 혁신 — 백금 의존도 탈피", first=True, size=17, bold=True, color=NAVY)
+    add_bullet(tf, "1990년대 대비 kW당 백금 사용량 90% 감소 | DOE 목표: 0.10 g/kW 미만", level=1, size=14)
+    add_bullet(tf, "PGM-free 촉매: Fe-N-C 0.85 W/cm² | 코발트 기반 4배 내구성 | Fe-Cu 302 mW/cm²", level=1, size=14)
+    add_bullet(tf, "Well-to-Wheel 효율: FCEV 25~35% vs BEV 70~90% → 대형 상용차에서 TCO 역전 가능(2030)",
+               level=1, size=14, color=ACCENT_BLUE)
 
-    # 하단: 비용 절감 테이블
-    tbl_shape = slide.shapes.add_table(5, 3, Inches(0.6), Inches(3.8),
-                                       Inches(8.5), Inches(2.8))
+    # 하단: 비용 절감 테이블 (7행으로 확장)
+    tbl_shape = slide.shapes.add_table(7, 3, Inches(0.6), Inches(3.6),
+                                       Inches(8.5), Inches(3.2))
     table = tbl_shape.table
     table.columns[0].width = Inches(3.5)
     table.columns[1].width = Inches(2.5)
@@ -958,20 +1080,22 @@ def slide_23_tech_innovation(prs):
         ["연료전지 시스템 (수송용)", "$80~100/kW", "$80/kW (2030)"],
         ["전해조 시스템", "~$400/kW", "$250/kW (2026)"],
         ["백금 촉매 비용", "$6.80/kW", "$4.18/kW"],
+        ["그린수소 비용", "$3~8/kg", "$1~2/kg (2030)"],
+        ["수전해 자본비용", "$300~600/kW", "$150/kW (2030)"],
     ]
-    style_data_rows(table, data, size=14)
+    style_data_rows(table, data, size=13)
 
     # 우측 박스
-    add_colored_box(slide, Inches(9.5), Inches(3.8), Inches(3.2), Inches(2.8),
+    add_colored_box(slide, Inches(9.5), Inches(3.6), Inches(3.2), Inches(3.2),
                     NAVY,
                     "AI 데이터센터\n전력 혁명\n\n2030년까지\nDC 38%가\n온사이트 발전\n\n"
                     "SOFC가\n그리드 우회 솔루션",
                     text_size=14, bold=False)
 
 
-def slide_24_korea_global(prs):
+def slide_26_korea_global(prs):
     """한국 글로벌 위상"""
-    slide = setup_slide(prs, "[한국] 글로벌 시장에서의 위상", 24)
+    slide = setup_slide(prs, "[한국] 글로벌 시장에서의 위상", 26)
 
     tbl_shape = slide.shapes.add_table(8, 3, Inches(0.6), Inches(1.5),
                                        Inches(12.1), Inches(4.2))
@@ -998,8 +1122,8 @@ def slide_24_korea_global(prs):
                first=True, size=15, bold=True, color=NAVY)
 
 
-def slide_25_conclusion(prs):
-    """결론 및 전망"""
+def slide_27_conclusion(prs):
+    """결론 및 전망 — 시나리오 분석 + 5대 과제 업데이트"""
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     add_background(slide, NAVY)
 
@@ -1021,57 +1145,56 @@ def slide_25_conclusion(prs):
     run.text = "결론 및 향후 전망"
     set_font(run, size=40, bold=True, color=WHITE)
 
-    # 글로벌 전망
-    txBox2 = slide.shapes.add_textbox(Inches(0.8), Inches(2.0), Inches(11.7), Inches(1.0))
+    # 글로벌 전망 — 시나리오 분석 반영
+    txBox2 = slide.shapes.add_textbox(Inches(0.8), Inches(1.9), Inches(11.7), Inches(1.0))
     tf2 = txBox2.text_frame
     tf2.word_wrap = True
     p2 = tf2.paragraphs[0]
     p2.alignment = PP_ALIGN.LEFT
     run2 = p2.add_run()
-    run2.text = "글로벌: 연평균 20~27% 성장, 2030년 수백억 달러 규모"
-    set_font(run2, size=20, bold=True, color=GREEN)
+    run2.text = "글로벌: CAGR 20~27% | IEA 2030 1.5억톤(NZE) | McKinsey $2.5조 수소경제 | GS 1.1억톤"
+    set_font(run2, size=18, bold=True, color=GREEN)
 
     items = [
-        ("AI 데이터센터", "SOFC 대규모 배치가 시장 판도 변화의 게임체인저"),
-        ("상용차 확대", "수소 트럭·버스 보급 가속화, PEMFC 수요 견인"),
-        ("한국의 기회", "2040년 연 43조원 부가가치, 42만개 일자리 창출"),
+        ("AI 데이터센터", "SOFC 대규모 배치 — 시장 판도 변화의 게임체인저"),
+        ("상용차 확대", "수소 트럭·버스 보급 가속, 대형차 FCEV 15~25% 전망"),
+        ("민간 투자", "SK $120억 + 현대 $72억 + POSCO $65억 등 총 $280억"),
     ]
 
     for i, (title, desc) in enumerate(items):
-        y = Inches(3.0) + Inches(i * 0.9)
-        add_colored_box(slide, Inches(0.8), y, Inches(2.8), Inches(0.7),
-                        GREEN, title, text_size=16, bold=True)
-        txB = slide.shapes.add_textbox(Inches(4.0), y, Inches(8.5), Inches(0.7))
+        y = Inches(2.8) + Inches(i * 0.8)
+        add_colored_box(slide, Inches(0.8), y, Inches(2.8), Inches(0.65),
+                        GREEN, title, text_size=15, bold=True)
+        txB = slide.shapes.add_textbox(Inches(4.0), y, Inches(8.5), Inches(0.65))
         tfB = txB.text_frame
         tfB.word_wrap = True
         pB = tfB.paragraphs[0]
         pB.alignment = PP_ALIGN.LEFT
         runB = pB.add_run()
         runB.text = desc
-        set_font(runB, size=18, color=WHITE)
+        set_font(runB, size=17, color=WHITE)
 
-    # 한국 핵심 과제
-    txBox3 = slide.shapes.add_textbox(Inches(0.8), Inches(5.7), Inches(11.7), Inches(0.5))
+    # 한국 5대 핵심 과제 — 전문가 권고 기반 업데이트
+    txBox3 = slide.shapes.add_textbox(Inches(0.8), Inches(5.3), Inches(11.7), Inches(0.5))
     tf3 = txBox3.text_frame
     tf3.word_wrap = True
     p3 = tf3.paragraphs[0]
     p3.alignment = PP_ALIGN.LEFT
     run3 = p3.add_run()
-    run3.text = "한국 5대 핵심 과제"
+    run3.text = "한국 5대 전략적 집중 분야"
     set_font(run3, size=20, bold=True, color=ACCENT_ORANGE)
 
     challenges = [
-        "핵심 소재·부품 국산화",
-        "그린수소 전환 가속화",
-        "정책 안정성 확보",
-        "인프라 확충",
-        "기술 격차 해소",
+        "SOFC·대형\n상용차 집중",
+        "핵심 소재\n국산화(코오롱)",
+        "그린수소\n비용 혁신",
+        "민간 투자\n$280B 활용",
+        "수소 무역\n허브 구축",
     ]
-    box_w = Inches(2.2)
     for i, ch in enumerate(challenges):
-        add_colored_box(slide, Inches(0.8 + i * 2.4), Inches(6.3),
-                        Inches(2.2), Inches(0.7),
-                        LIGHT_NAVY, ch, text_size=13, bold=True)
+        add_colored_box(slide, Inches(0.8 + i * 2.4), Inches(5.9),
+                        Inches(2.2), Inches(0.85),
+                        LIGHT_NAVY, ch, text_size=12, bold=True)
 
     add_slide_number(slide, TOTAL_SLIDES)
 
@@ -1095,18 +1218,20 @@ def main():
     slide_11_china_companies(prs)
     slide_12_china_applications(prs)
     slide_13_us_vs_china(prs)
-    slide_14_korea_market(prs)
-    slide_15_korea_policy(prs)
-    slide_16_korea_companies(prs)
-    slide_17_korea_rd(prs)
-    slide_18_korea_infra(prs)
-    slide_19_korea_swot(prs)
-    slide_20_roadmap_achievement(prs)
-    slide_21_parts_techgap(prs)
-    slide_22_charging_crisis(prs)
-    slide_23_tech_innovation(prs)
-    slide_24_korea_global(prs)
-    slide_25_conclusion(prs)
+    slide_14_fcev_vs_bev(prs)
+    slide_15_geopolitical_hydrogen(prs)
+    slide_16_korea_market(prs)
+    slide_17_korea_policy(prs)
+    slide_18_korea_companies(prs)
+    slide_19_korea_rd(prs)
+    slide_20_korea_infra(prs)
+    slide_21_korea_swot(prs)
+    slide_22_roadmap_achievement(prs)
+    slide_23_parts_techgap(prs)
+    slide_24_charging_crisis(prs)
+    slide_25_tech_innovation(prs)
+    slide_26_korea_global(prs)
+    slide_27_conclusion(prs)
 
     prs.save(OUTPUT_PATH)
     print(f"PPT 생성 완료: {OUTPUT_PATH}")
